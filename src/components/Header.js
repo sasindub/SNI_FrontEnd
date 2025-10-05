@@ -42,13 +42,13 @@ const Header = () => {
                 alt="SNL Logo" 
                 className="w-full h-full object-contain filter brightness-0 invert"
                 style={{
-                  filter: isScrolled ? 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)' : 'brightness(0) invert(1)'
+                  filter: isScrolled ? 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)' : 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)'
                 }}
               />
             </div>
             <div className="flex flex-col">
-              <span className={`font-bold text-xl transition-colors duration-300 ${isScrolled ? 'text-text-primary' : 'text-white'}`}>SNL</span>
-              <span className={`text-xs -mt-1 transition-colors duration-300 ${isScrolled ? 'text-text-secondary' : 'text-gray-300'}`}>TECHNOLOGY</span>
+              <span className={`font-bold text-xl transition-colors duration-300 ${isScrolled ? 'text-text-primary' : 'text-text-primary'}`}>SNL</span>
+              <span className={`text-xs -mt-1 transition-colors duration-300 ${isScrolled ? 'text-text-secondary' : 'text-text-secondary'}`}>TECHNOLOGY</span>
             </div>
           </Link>
 
@@ -58,9 +58,9 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative font-medium transition-all duration-300 hover:text-primary group ${
-                  location.pathname === item.path ? 'text-primary' : isScrolled ? 'text-text-primary' : 'text-white'
-                }`}
+                  className={`relative font-medium transition-all duration-300 hover:text-primary group ${
+                    location.pathname === item.path ? 'text-primary' : isScrolled ? 'text-text-primary' : 'text-text-primary'
+                  }`}
               >
                 {item.name}
                 <span
