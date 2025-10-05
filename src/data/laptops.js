@@ -3,6 +3,7 @@ export const laptops = [
     id: 1,
     name: "SNI Phantom X1",
     category: "Gaming",
+    deviceType: "laptop",
     price: 2499,
     image: require("../assets/laptop-gaming.jpg"),
     specs: {
@@ -21,6 +22,7 @@ export const laptops = [
     id: 2,
     name: "SNI ProBook 15",
     category: "Professional",
+    deviceType: "laptop",
     price: 1899,
     image: require("../assets/laptop-business.jpg"),
     specs: {
@@ -39,6 +41,7 @@ export const laptops = [
     id: 3,
     name: "SNI Velocity V2",
     category: "Gaming",
+    deviceType: "laptop",
     price: 3299,
     image: require("../assets/laptop-gaming.jpg"),
     specs: {
@@ -57,6 +60,7 @@ export const laptops = [
     id: 4,
     name: "SNI WorkStation Pro",
     category: "Professional",
+    deviceType: "laptop",
     price: 2799,
     image: require("../assets/laptop-workstation.jpg"),
     specs: {
@@ -75,6 +79,7 @@ export const laptops = [
     id: 5,
     name: "SNI Stream 14",
     category: "Content Creation",
+    deviceType: "laptop",
     price: 1599,
     image: require("../assets/laptop-ultrabook.jpg"),
     specs: {
@@ -93,6 +98,7 @@ export const laptops = [
     id: 6,
     name: "SNI Elite X1",
     category: "Gaming",
+    deviceType: "laptop",
     price: 1999,
     image: require("../assets/laptop-gaming.jpg"),
     specs: {
@@ -109,7 +115,133 @@ export const laptops = [
   }
 ];
 
-export const categories = ["All", "Gaming", "Professional", "Content Creation"];
+export const pcs = [
+  {
+    id: 7,
+    name: "SNI Tower Pro",
+    category: "Gaming",
+    deviceType: "pc",
+    price: 3299,
+    image: require("../assets/laptop-workstation.jpg"),
+    specs: {
+      cpu: "Intel Core i9-13900K",
+      gpu: "RTX 4090",
+      ram: "64GB DDR5",
+      storage: "2TB NVMe SSD",
+      display: "Support 4K 144Hz",
+      power: "1000W 80+ Gold"
+    },
+    features: ["Liquid Cooling", "RGB Lighting", "Premium Case"],
+    rating: 4.9,
+    reviews: 89
+  },
+  {
+    id: 8,
+    name: "SNI Compact Mini",
+    category: "Professional",
+    deviceType: "pc",
+    price: 1899,
+    image: require("../assets/laptop-business.jpg"),
+    specs: {
+      cpu: "Intel Core i7-13700",
+      gpu: "RTX 4060",
+      ram: "32GB DDR5",
+      storage: "1TB NVMe SSD",
+      display: "Support 4K 60Hz",
+      power: "650W 80+ Gold"
+    },
+    features: ["Compact Design", "Quiet Operation", "Business Ready"],
+    rating: 4.7,
+    reviews: 156
+  },
+  {
+    id: 9,
+    name: "SNI Creator Station",
+    category: "Content Creation",
+    deviceType: "pc",
+    price: 4599,
+    image: require("../assets/laptop-workstation.jpg"),
+    specs: {
+      cpu: "AMD Ryzen 9 7950X",
+      gpu: "RTX 4080",
+      ram: "128GB DDR5",
+      storage: "4TB NVMe SSD",
+      display: "Support 8K 60Hz",
+      power: "1200W 80+ Platinum"
+    },
+    features: ["8K Ready", "Professional Grade", "Creator Optimized"],
+    rating: 4.9,
+    reviews: 73
+  }
+];
+
+export const ipods = [
+  {
+    id: 10,
+    name: "SNI Pod Pro",
+    category: "Premium",
+    deviceType: "ipod",
+    price: 399,
+    image: require("../assets/laptop-ultrabook.jpg"),
+    specs: {
+      storage: "256GB",
+      battery: "40 hours",
+      display: "3.5\" Retina",
+      audio: "Lossless Audio",
+      connectivity: "WiFi + Bluetooth",
+      water: "IPX7 Waterproof"
+    },
+    features: ["Lossless Audio", "Premium Build", "Long Battery"],
+    rating: 4.8,
+    reviews: 234,
+    isPreOrder: true
+  },
+  {
+    id: 11,
+    name: "SNI Pod Air",
+    category: "Portable",
+    deviceType: "ipod",
+    price: 299,
+    image: require("../assets/laptop-ultrabook.jpg"),
+    specs: {
+      storage: "128GB",
+      battery: "30 hours",
+      display: "3.2\" HD",
+      audio: "High-Res Audio",
+      connectivity: "Bluetooth 5.0",
+      water: "IPX5 Water Resistant"
+    },
+    features: ["Lightweight", "Wireless", "Affordable"],
+    rating: 4.6,
+    reviews: 189,
+    isPreOrder: true
+  },
+  {
+    id: 12,
+    name: "SNI Pod Classic",
+    category: "Classic",
+    deviceType: "ipod",
+    price: 199,
+    image: require("../assets/laptop-ultrabook.jpg"),
+    specs: {
+      storage: "64GB",
+      battery: "25 hours",
+      display: "2.8\" LCD",
+      audio: "Standard Audio",
+      connectivity: "USB-C",
+      water: "Basic Protection"
+    },
+    features: ["Classic Design", "Simple Interface", "Budget Friendly"],
+    rating: 4.4,
+    reviews: 145,
+    isPreOrder: false
+  }
+];
+
+export const allProducts = [...laptops, ...pcs, ...ipods];
+
+export const categories = ["All", "Gaming", "Professional", "Content Creation", "Premium", "Portable", "Classic"];
+export const deviceTypes = ["All", "laptop", "pc", "ipod"];
 
 export const priceRanges = [
   { label: "Under $1,500", min: 0, max: 1500 },
