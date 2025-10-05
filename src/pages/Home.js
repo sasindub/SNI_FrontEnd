@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Hero from '../components/Hero';
 import CarouselHeader from '../components/CarouselHeader';
 import SearchAndFilter from '../components/SearchAndFilter';
@@ -12,6 +12,70 @@ const Home = () => {
   const [selectedLaptop, setSelectedLaptop] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDeviceType, setSelectedDeviceType] = useState('All');
+  const [currentSection, setCurrentSection] = useState(0);
+  const heroRef = useRef(null);
+  const carouselRef = useRef(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Track which section is currently in view
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroRect = heroRef.current?.getBoundingClientRect();
+      const carouselRect = carouselRef.current?.getBoundingClientRect();
+      
+      if (heroRect && carouselRect) {
+        const heroInView = heroRect.top <= 0 && heroRect.bottom > 0;
+        const carouselInView = carouselRect.top <= 0 && carouselRect.bottom > 0;
+        
+        if (heroInView) {
+          setCurrentSection(0);
+        } else if (carouselInView) {
+          setCurrentSection(1);
+        } else {
+          setCurrentSection(2); // Products or other sections
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Simple instant scroll: Hero to Carousel only
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (currentSection === 0) {
+        // In hero section - instant scroll to carousel on down scroll
+        if (e.deltaY > 0) {
+          e.preventDefault();
+          if (isScrolling) return;
+          setIsScrolling(true);
+          setCurrentSection(1);
+          carouselRef.current?.scrollIntoView({ behavior: 'instant' });
+          setTimeout(() => setIsScrolling(false), 100);
+        }
+      }
+      // All other sections use normal scrolling
+    };
+
+    const handleKeyDown = (e) => {
+      if (currentSection === 0 && e.key === 'ArrowDown') {
+        // In hero section - instant to carousel
+        e.preventDefault();
+        setCurrentSection(1);
+        carouselRef.current?.scrollIntoView({ behavior: 'instant' });
+      }
+      // All other sections use normal scrolling
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentSection, isScrolling]);
 
   // Filter products based on search and filters
   const filteredProducts = useMemo(() => {
@@ -70,22 +134,26 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Hero />
+    <div className="min-h-screen bg-white overflow-y-auto">
+      <div ref={heroRef}>
+        <Hero />
+      </div>
       
       {/* Carousel Header */}
-      <CarouselHeader onCategorySelect={handleCategorySelect} />
+      <div ref={carouselRef}>
+        <CarouselHeader onCategorySelect={handleCategorySelect} />
+      </div>
       
-      {/* Search and Filter Section */}
+      {/* Products Section */}
       <div id="products-section">
+        {/* Search and Filter Section */}
         <SearchAndFilter 
           onSearch={handleSearch}
           onFilter={handleFilter}
         />
-      </div>
 
-      {/* Laptops Grid */}
-      <section className="py-16">
+        {/* Products Grid */}
+        <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="text-center mb-12">
@@ -196,6 +264,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      </div>
 
       {/* Quick View Modal */}
       <QuickViewModal

@@ -34,14 +34,21 @@ const Header = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-2 group"
+            className="flex items-center space-x-3 group"
           >
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="text-white font-bold text-xl">S</span>
+            <div className="w-12 h-12 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <img 
+                src={require('../assets/snl_logo.png')} 
+                alt="SNL Logo" 
+                className="w-full h-full object-contain filter brightness-0 invert"
+                style={{
+                  filter: isScrolled ? 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)' : 'brightness(0) invert(1)'
+                }}
+              />
             </div>
             <div className="flex flex-col">
-              <span className="text-text-primary font-bold text-xl">SNI</span>
-              <span className="text-xs text-text-secondary -mt-1">TECHNOLOGY</span>
+              <span className={`font-bold text-xl transition-colors duration-300 ${isScrolled ? 'text-text-primary' : 'text-white'}`}>SNL</span>
+              <span className={`text-xs -mt-1 transition-colors duration-300 ${isScrolled ? 'text-text-secondary' : 'text-gray-300'}`}>TECHNOLOGY</span>
             </div>
           </Link>
 
@@ -51,8 +58,8 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative text-text-primary font-medium transition-all duration-300 hover:text-primary group ${
-                  location.pathname === item.path ? 'text-primary' : ''
+                className={`relative font-medium transition-all duration-300 hover:text-primary group ${
+                  location.pathname === item.path ? 'text-primary' : isScrolled ? 'text-text-primary' : 'text-white'
                 }`}
               >
                 {item.name}

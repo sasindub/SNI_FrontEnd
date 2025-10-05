@@ -1,83 +1,85 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronRight, Cpu, Monitor, HardDrive, Zap, Play, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Star, Shield, Zap, Cpu, Monitor, HardDrive } from "lucide-react";
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const laptops = [
     { 
       name: "SNI Phantom X1", 
       image: require('../assets/laptop-gaming.jpg'),
       price: "$2,499",
-      tagline: "Gaming Beast"
+      tagline: "Gaming Beast",
+      description: "Unleash maximum performance with RTX 4080 graphics and Intel i9 processor",
+      specs: "RTX 4080 • Intel i9 • 32GB RAM • 1TB SSD"
     },
     { 
       name: "SNI Pro Max", 
       image: require('../assets/laptop-workstation.jpg'),
       price: "$3,299",
-      tagline: "Professional Power"
+      tagline: "Professional Power",
+      description: "Built for creators and professionals with workstation-grade performance",
+      specs: "RTX 4090 • AMD Ryzen 9 • 64GB RAM • 2TB SSD"
     },
     { 
       name: "SNI Ultra Slim", 
       image: require('../assets/laptop-ultrabook.jpg'),
       price: "$1,899",
-      tagline: "Ultra Portable"
+      tagline: "Ultra Portable",
+      description: "Premium portability without compromising on performance",
+      specs: "Intel i7 • 16GB RAM • 1TB SSD • 14\" Display"
     },
     { 
       name: "SNI Business Elite", 
       image: require('../assets/laptop-business.jpg'),
       price: "$2,199",
-      tagline: "Business Excellence"
+      tagline: "Business Excellence",
+      description: "Designed for modern business professionals and entrepreneurs",
+      specs: "Intel i7 • 32GB RAM • 2TB SSD • Security Features"
     }
   ];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % laptops.length);
-    }, 4000);
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentSlide((prev) => (prev + 1) % laptops.length);
+        setIsTransitioning(false);
+      }, 300);
+    }, 6000);
     return () => clearInterval(interval);
   }, [laptops.length]);
 
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        {/* Electronic Signal Animation */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-2 h-2 bg-primary rounded-full animate-ping"></div>
-          <div className="absolute top-32 left-32 w-1 h-1 bg-red-500 rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
-          <div className="absolute top-40 left-40 w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
-          
-          <div className="absolute top-60 right-32 w-2 h-2 bg-primary rounded-full animate-ping" style={{animationDelay: '1.5s'}}></div>
-          <div className="absolute top-80 right-20 w-1 h-1 bg-red-500 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
-          
-          <div className="absolute bottom-40 left-32 w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping" style={{animationDelay: '2.5s'}}></div>
-          <div className="absolute bottom-60 right-40 w-2 h-2 bg-primary rounded-full animate-ping" style={{animationDelay: '3s'}}></div>
-        </div>
+  const handleShopNow = () => {
+    const productsSection = document.getElementById('products-section');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-        {/* Circuit Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <pattern id="circuit" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M10,0 L10,20 M0,10 L20,10" stroke="#007aff" strokeWidth="0.5" fill="none"/>
-                <circle cx="10" cy="10" r="1" fill="#007aff"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#circuit)"/>
-          </svg>
-        </div>
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url(${require('../assets/hero-bg.jpg')})`,
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center h-screen py-20 pt-24">
+          
           {/* Left Content */}
           <div className="text-center lg:text-left">
             <div className="animate-fade-in">
               {/* Badge */}
               <div className="inline-flex items-center px-6 py-3 rounded-full bg-primary/10 border border-primary/20 mb-8 backdrop-blur-sm">
-                <Sparkles className="w-4 h-4 text-primary mr-3 animate-pulse" />
+                <Sparkles className="w-4 h-4 text-primary mr-3" />
                 <span className="text-primary text-sm font-semibold tracking-wide uppercase">Next-Gen Technology</span>
               </div>
 
@@ -90,10 +92,9 @@ const Hero = () => {
                 </span>
               </h1>
 
-              {/* Subtitle */}
+              {/* Description */}
               <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl leading-relaxed animate-fade-in" style={{animationDelay: '0.6s'}}>
-                Experience the future of computing with cutting-edge performance, 
-                stunning displays, and revolutionary design that redefines what's possible.
+                {laptops[currentSlide].description}
               </p>
 
               {/* Price Display */}
@@ -104,24 +105,20 @@ const Hero = () => {
                 <span className="text-gray-400 text-lg ml-2">Starting from</span>
               </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12 animate-slide-up" style={{animationDelay: '1s'}}>
-                <button className="btn-primary text-lg px-8 py-4 group relative overflow-hidden">
+              {/* Single CTA Button */}
+              <div className="flex justify-center lg:justify-start mb-12 animate-slide-up" style={{animationDelay: '1s'}}>
+                <button 
+                  onClick={handleShopNow}
+                  className="group relative px-12 py-4 bg-primary hover:bg-blue-600 text-white font-semibold text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
                   <span className="relative z-10 flex items-center">
-                    Order Now
+                    Shop Now
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </button>
-                <button className="btn-secondary text-lg px-8 py-4 group border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                  <span className="flex items-center">
-                    <Play className="mr-2 w-5 h-5" />
-                    Watch Demo
                   </span>
                 </button>
               </div>
 
-              {/* Stats */}
+              {/* Key Features */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-fade-in" style={{animationDelay: '1.2s'}}>
                 {[
                   { icon: Cpu, label: "Latest Processors", value: "Intel & AMD" },
@@ -131,7 +128,7 @@ const Hero = () => {
                 ].map((stat, index) => (
                   <div
                     key={index}
-                    className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-primary/50 transition-all duration-300 group hover:scale-105"
+                    className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-primary/50 transition-all duration-300 group"
                   >
                     <stat.icon className="h-6 w-6 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform duration-300" />
                     <p className="text-xs text-gray-400 mb-1">{stat.label}</p>
@@ -142,57 +139,101 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Content - Laptop Slider */}
-          <div className="relative animate-slide-up" style={{animationDelay: '0.4s'}}>
-            {/* Main Laptop Display */}
-            <div className="relative">
-              <div className="relative w-full h-96 lg:h-[500px] rounded-3xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 shadow-2xl border border-white/10">
-                <img
-                  src={laptops[currentSlide].image}
-                  alt={laptops[currentSlide].name}
-                  className="w-full h-full object-cover transition-all duration-1000 transform hover:scale-105"
-                />
-                
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                
-                {/* Product Info */}
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h3 className="text-2xl font-bold text-white mb-2">
-                    {laptops[currentSlide].name}
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-primary">
-                      {laptops[currentSlide].price}
-                    </span>
-                    <span className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full border border-primary/30">
+          {/* Right Content - Modern Laptop Showcase */}
+          <div className="relative animate-slide-up mt-6" style={{animationDelay: '0.4s'}}>
+            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/20">
+              
+              {/* Laptop Display */}
+              <div className="relative mb-8">
+                <div className="relative w-full h-80 lg:h-96 rounded-2xl overflow-hidden bg-gray-50 shadow-lg">
+                  <img
+                    src={laptops[currentSlide].image}
+                    alt={laptops[currentSlide].name}
+                    className={`w-full h-full object-cover transition-all duration-700 ${
+                      isTransitioning ? 'opacity-50 scale-95' : 'opacity-100 scale-100'
+                    }`}
+                  />
+                  
+                  {/* Product Badge */}
+                  <div className="absolute top-4 left-4">
+                    <span className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-full shadow-lg">
                       {laptops[currentSlide].tagline}
                     </span>
                   </div>
-                </div>
 
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-500 to-primary rounded-3xl opacity-20 blur-lg animate-pulse"></div>
+                  {/* Rating */}
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center space-x-1 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <span className="text-black text-sm font-medium">4.9</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Product Info */}
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-black mb-3">
+                  {laptops[currentSlide].name}
+                </h3>
+                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  {laptops[currentSlide].specs}
+                </p>
+                <div className="text-3xl font-bold text-primary mb-4">
+                  {laptops[currentSlide].price}
+                </div>
               </div>
 
               {/* Slider Navigation */}
-              <div className="flex justify-center mt-6 space-x-3">
+              <div className="flex justify-center space-x-3 mb-8">
                 {laptops.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentSlide(index)}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setTimeout(() => {
+                        setCurrentSlide(index);
+                        setIsTransitioning(false);
+                      }, 300);
+                    }}
                     className={`w-3 h-3 rounded-full transition-all duration-300 ${
                       index === currentSlide 
                         ? 'bg-primary scale-125' 
-                        : 'bg-white/30 hover:bg-white/50'
+                        : 'bg-gray-300 hover:bg-gray-400'
                     }`}
                   />
                 ))}
               </div>
 
-              {/* Floating Elements */}
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/20 rounded-full animate-float blur-sm"></div>
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-red-500/20 rounded-full animate-float blur-sm" style={{animationDelay: '2s'}}></div>
+              {/* Features */}
+              {/* <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="text-center">
+                  <Shield className="w-6 h-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-gray-600">3-Year</p>
+                  <p className="text-sm font-semibold text-black">Warranty</p>
+                </div>
+                <div className="text-center">
+                  <Zap className="w-6 h-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-gray-600">Free</p>
+                  <p className="text-sm font-semibold text-black">Shipping</p>
+                </div>
+                <div className="text-center">
+                  <Star className="w-6 h-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-gray-600">Premium</p>
+                  <p className="text-sm font-semibold text-black">Support</p>
+                </div>
+              </div> */}
+
+              {/* Single Action Button */}
+              {/* <button 
+                onClick={handleShopNow}
+                className="w-full bg-primary hover:bg-blue-600 text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group"
+              >
+                <span className="flex items-center justify-center">
+                  Order Now
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </span>
+              </button> */}
             </div>
           </div>
         </div>
@@ -204,11 +245,6 @@ const Hero = () => {
           <div className="w-1 h-3 bg-primary rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
-
-      {/* Additional Animations */}
-      <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-primary rounded-full animate-ping" style={{animationDelay: '3s'}}></div>
-      <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-red-500 rounded-full animate-ping" style={{animationDelay: '4s'}}></div>
-      <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-blue-400 rounded-full animate-ping" style={{animationDelay: '5s'}}></div>
     </section>
   );
 };
