@@ -66,51 +66,59 @@ const Home = () => {
   const featureCards = [
     {
       title: "Lightning Fast",
-      description: "Powered by the latest Intel and AMD processors with cutting-edge graphics for unmatched performance.",
+      description: "Latest Intel & AMD processors with cutting-edge graphics for seamless performance.",
       stat: "23x",
       statLabel: "Faster Performance",
       color: "blue",
       icon: "M13 10V3L4 14h7v7l9-11h-7z"
     },
     {
-      title: "All-Day Battery",
-      description: "Up to 6 more hours of battery life. Work all day without interruption.",
-      stat: "18h",
-      statLabel: "Battery Life",
-      color: "green",
-      icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
-    },
-    {
-      title: "Premium Quality",
-      description: "Every device undergoes rigorous testing to ensure exceptional build quality and long-lasting reliability.",
+      title: "Sleek Design",
+      description: "Premium materials for a stylish, durable, and lightweight build.",
       stat: "100%",
-      statLabel: "Quality Tested",
+      statLabel: "Premium",
       color: "gray",
       icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
     },
     {
-      title: "SNI Intelligence",
-      description: "Neural Engine to enable AI features for smarter, more intuitive computing.",
-      stat: "AI",
-      statLabel: "Powered",
-      color: "purple",
-      emoji: "🤖"
+      title: "All-Day Battery",
+      description: "Long-lasting battery keeps you productive from morning to night.",
+      stat: "18h",
+      statLabel: "Extended Battery Life",
+      color: "green",
+      icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
     },
     {
-      title: "Brighter Display",
-      description: "A bigger, brighter Liquid Retina display with stunning color accuracy.",
+      title: "Immersive Display",
+      description: "High-resolution screens with vibrant colors for work and play.",
       stat: "2x",
-      statLabel: "Brightness",
+      statLabel: "Brighter Display",
       color: "orange",
       icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
     },
     {
-      title: "External Displays",
-      description: "Support for up to two external displays for enhanced productivity.",
+      title: "Next-Level Connectivity",
+      description: "Wi-Fi 6, Thunderbolt, and multiple ports for fast, reliable connections.",
       stat: "2",
-      statLabel: "Displays",
+      statLabel: "External Displays",
       color: "teal",
       icon: "M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+    },
+    {
+      title: "24/7 Support",
+      description: "Anytime customer service to ensure peace of mind.",
+      stat: "24/7",
+      statLabel: "Available",
+      color: "indigo",
+      icon: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z"
+    },
+    {
+      title: "Faster Performance",
+      description: "Revolutionary processing power for smooth multitasking.",
+      stat: "AI",
+      statLabel: "Powered",
+      color: "purple",
+      emoji: "🤖"
     },
     {
       title: "Center Stage Camera",
@@ -119,14 +127,6 @@ const Home = () => {
       statLabel: "HD Camera",
       color: "red",
       icon: "M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
-    },
-    {
-      title: "24/7 Support",
-      description: "Our dedicated support team is always ready to help you get the most out of your SNI devices.",
-      stat: "24/7",
-      statLabel: "Available",
-      color: "indigo",
-      icon: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z"
     }
   ];
 
@@ -168,7 +168,7 @@ const Home = () => {
     scrollContainerRef.current = scrollContainer;
 
     let animationId;
-    const scrollSpeed = 1.5; // Smooth scrolling speed
+    const scrollSpeed = 1.2; // Smooth scrolling speed
 
     const smoothScroll = () => {
       if (!isPaused && scrollContainerRef.current) {
@@ -215,13 +215,12 @@ const Home = () => {
                   />
                 </div>
                 <h1 className="text-3xl md:text-4xl font-light text-gray-600 tracking-tight" style={{ marginTop: '-20px' }}>
-                  The future of computing
+                  From Imagination to Innovation <br/> SNL Makes It Real.
                 </h1>
               </div>
               
-              <p className="text-xl text-gray-600 mb-12 max-w-2xl leading-relaxed">
-                Revolutionary laptops, PCs, and audio devices designed for creators, gamers, and professionals. 
-                Experience unmatched performance and premium craftsmanship.
+              <p className="text-xl text-gray-600 mb-12 max-w-2xl leading-relaxed mt-2">
+                Your Perfect Device Awaits — Discover Our Premium Selection
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -274,10 +273,10 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
-              Choose Your <span className="text-blue-600">Device</span>
+              Explore Our <span className="text-blue-600">Device Range</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover our range of premium devices designed for every need.
+              Your Perfect Device Awaits — Discover Our Premium Selection
             </p>
           </div>
 
@@ -444,10 +443,10 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
-              Available <span className="text-blue-600">Finishes</span>
+              Explore Our <span className="text-blue-600">Product Lineup</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose from our premium color options and powerful specifications.
+              Premium colors, powerful specifications — tailored for you
             </p>
           </div>
 
@@ -559,7 +558,7 @@ const Home = () => {
               Our <span className="text-blue-600">Collection</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover our range of premium devices designed for every need.
+              Crafted for Every Taste — Explore premium designs and powerful specifications built for you.
             </p>
           </div>
 
@@ -671,10 +670,10 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
-              Why Choose <span className="text-blue-600">SNI</span>
+              Discover Why <span className="text-blue-600">SNI</span> is the Best Choice
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              There's never been a better time to upgrade. Here's what you get with SNI devices.
+              Choose SNI — There's Never Been a Better Time to Upgrade
             </p>
           </div>
 
@@ -832,7 +831,7 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
-              Get to Know <span className="text-blue-600">SNI</span>
+              Learn More About <span className="text-blue-600">SNI</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Discover what makes SNI the preferred choice for professionals and creators worldwide.
@@ -843,33 +842,51 @@ const Home = () => {
             {[
               {
                 title: "Innovation First",
-                description: "We constantly push the boundaries of technology with breakthrough innovations in device design and performance.",
+                description: "Pushing technology boundaries with breakthrough device design and performance.",
                 image: require('../assets/laptop-gaming.jpg'),
                 color: "from-blue-500 to-blue-600"
               },
               {
                 title: "Premium Materials",
-                description: "Every SNI device is crafted using the finest materials and undergoes rigorous quality control processes.",
+                description: "High-quality, durable, and elegant materials for a premium feel.",
                 image: require('../assets/laptop-workstation.jpg'),
                 color: "from-gray-500 to-gray-600"
               },
               {
                 title: "Global Reach",
-                description: "With presence in over 50 countries, SNI delivers world-class technology to customers worldwide.",
+                description: "Delivering cutting-edge solutions and support worldwide.",
                 image: require('../assets/laptop-ultrabook.jpg'),
                 color: "from-green-500 to-green-600"
               },
               {
                 title: "Customer Focus",
-                description: "Our customers are at the heart of everything we do. We listen, learn, and continuously improve.",
+                description: "Personalized service and 24/7 support tailored to your needs.",
                 image: require('../assets/laptop-business.jpg'),
                 color: "from-purple-500 to-purple-600"
               },
               {
                 title: "Sustainable Future",
-                description: "Committed to environmental responsibility with eco-friendly manufacturing and packaging processes.",
+                description: "Eco-friendly practices and devices designed to protect the planet.",
                 image: require('../assets/laptop-gaming.jpg'),
                 color: "from-teal-500 to-teal-600"
+              },
+              {
+                title: "Advanced Technology",
+                description: "Harnessing the latest processors, graphics, and connectivity for unmatched performance.",
+                image: require('../assets/laptop-workstation.jpg'),
+                color: "from-indigo-500 to-indigo-600"
+              },
+              {
+                title: "Design Excellence",
+                description: "Sleek, modern, and functional designs that elevate your experience.",
+                image: require('../assets/laptop-ultrabook.jpg'),
+                color: "from-pink-500 to-pink-600"
+              },
+              {
+                title: "Reliability You Can Trust",
+                description: "Dependable products and services built to exceed expectations.",
+                image: require('../assets/laptop-business.jpg'),
+                color: "from-cyan-500 to-cyan-600"
               }
             ].map((item, index) => (
               <div
@@ -897,7 +914,7 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
-              Shop Products
+              Your Perfect Laptop Awaits
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Discover our complete range of laptops, PCs, and audio devices.
