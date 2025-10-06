@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import SearchAndFilter from '../components/SearchAndFilter';
 import LaptopCard from '../components/LaptopCard';
 import QuickViewModal from '../components/QuickViewModal';
+import PdfModal from '../components/PdfModal';
 import { allProducts } from '../data/laptops';
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
   const [filters, setFilters] = useState({ category: 'All', priceRange: null, deviceType: 'All' });
   const [selectedLaptop, setSelectedLaptop] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Filter products based on search and filters
@@ -69,7 +71,7 @@ const Home = () => {
       description: "Latest Intel & AMD processors with cutting-edge graphics for seamless performance.",
       stat: "23x",
       statLabel: "Faster Performance",
-      color: "blue",
+      color: "gray",
       icon: "M13 10V3L4 14h7v7l9-11h-7z"
     },
     {
@@ -85,31 +87,31 @@ const Home = () => {
       description: "Long-lasting battery keeps you productive from morning to night.",
       stat: "18h",
       statLabel: "Extended Battery Life",
-      color: "green",
-      icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
+      color: "gray",
+      icon: "M3.75 6.75h16.5M3.75 6.75C2.784 6.75 2 7.534 2 8.5v7c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0022 15.5v-7c0-.966-.784-1.75-1.75-1.75M3.75 6.75v-.5c0-.966.784-1.75 1.75-1.75h.5m15 0h.5c.966 0 1.75.784 1.75 1.75v.5M6 10.5h2.25M6 13.5h2.25M18 12a.75.75 0 100-1.5.75.75 0 000 1.5z"
     },
     {
       title: "Immersive Display",
       description: "High-resolution screens with vibrant colors for work and play.",
       stat: "2x",
       statLabel: "Brighter Display",
-      color: "orange",
-      icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+      color: "gray",
+      icon: "M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
     },
     {
       title: "Next-Level Connectivity",
       description: "Wi-Fi 6, Thunderbolt, and multiple ports for fast, reliable connections.",
-      stat: "2",
-      statLabel: "External Displays",
-      color: "teal",
-      icon: "M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+      stat: "Wi-Fi 6",
+      statLabel: "Fast Connection",
+      color: "gray",
+      icon: "M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"
     },
     {
       title: "24/7 Support",
       description: "Anytime customer service to ensure peace of mind.",
       stat: "24/7",
       statLabel: "Available",
-      color: "indigo",
+      color: "gray",
       icon: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z"
     },
     {
@@ -117,28 +119,28 @@ const Home = () => {
       description: "Revolutionary processing power for smooth multitasking.",
       stat: "AI",
       statLabel: "Powered",
-      color: "purple",
-      emoji: "🤖"
+      color: "gray",
+      icon: "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
     },
     {
       title: "Center Stage Camera",
       description: "Advanced camera with Desk View for professional video calls.",
       stat: "12MP",
       statLabel: "HD Camera",
-      color: "red",
+      color: "gray",
       icon: "M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
     }
   ];
 
   const colorClasses = {
-    blue: { bg: 'from-blue-50 to-blue-100', border: 'border-blue-200', iconBg: 'bg-blue-600', text: 'text-blue-600' },
-    green: { bg: 'from-green-50 to-green-100', border: 'border-green-200', iconBg: 'bg-green-600', text: 'text-green-600' },
-    gray: { bg: 'from-gray-50 to-gray-100', border: 'border-gray-200', iconBg: 'bg-gray-800', text: 'text-gray-800' },
-    purple: { bg: 'from-purple-50 to-purple-100', border: 'border-purple-200', iconBg: 'bg-purple-600', text: 'text-purple-600' },
-    orange: { bg: 'from-orange-50 to-orange-100', border: 'border-orange-200', iconBg: 'bg-orange-600', text: 'text-orange-600' },
-    teal: { bg: 'from-teal-50 to-teal-100', border: 'border-teal-200', iconBg: 'bg-teal-600', text: 'text-teal-600' },
-    red: { bg: 'from-red-50 to-red-100', border: 'border-red-200', iconBg: 'bg-red-600', text: 'text-red-600' },
-    indigo: { bg: 'from-indigo-50 to-indigo-100', border: 'border-indigo-200', iconBg: 'bg-indigo-600', text: 'text-indigo-600' }
+    blue: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-blue-600', text: 'text-blue-600' },
+    green: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-green-600', text: 'text-green-600' },
+    gray: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-gray-800', text: 'text-gray-800' },
+    purple: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-purple-600', text: 'text-purple-600' },
+    orange: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-orange-600', text: 'text-orange-600' },
+    teal: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-teal-600', text: 'text-teal-600' },
+    red: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-red-600', text: 'text-red-600' },
+    indigo: { bg: 'from-gray-50 to-gray-100', border: 'border-black', iconBg: 'bg-indigo-600', text: 'text-indigo-600' }
   };
 
   // Auto-slide carousel
@@ -230,7 +232,10 @@ const Home = () => {
                 >
                   Shop Now
                 </button>
-                <button className="px-8 py-3 text-blue-600 hover:text-blue-700 transition-all duration-300 text-lg border border-blue-600 rounded-full hover:bg-blue-50">
+                <button 
+                  onClick={() => setIsPdfModalOpen(true)}
+                  className="px-8 py-3 text-blue-600 hover:text-blue-700 transition-all duration-300 text-lg border border-blue-600 rounded-full hover:bg-blue-50"
+                >
                   Learn more
                 </button>
               </div>
@@ -717,110 +722,45 @@ const Home = () => {
           </div>
 
           {/* New Laptop Pre-Order Banner */}
-          <div className="mt-16">
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-gray-900 via-blue-900 to-gray-800 text-white">
-              <div className="absolute inset-0 bg-black/30"></div>
-              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-12">
-                
-                {/* Left Content */}
-                <div className="text-center lg:text-left">
-                  <div className="flex items-center justify-center lg:justify-start mb-6">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mr-4">
-                      <span className="text-white font-bold text-xl">🚀</span>
-                    </div>
-                    <h3 className="text-3xl font-light">New Release</h3>
-                  </div>
-                  
-                  <h2 className="text-4xl md:text-5xl font-light mb-6">
-                    SNI <span className="font-bold text-blue-300">i11</span>
-                    <span className="block text-2xl md:text-3xl font-light text-gray-300 mt-2">
-                      Next-Generation Laptop
-                    </span>
-                  </h2>
-                  
-                  <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                    Revolutionary design meets cutting-edge performance. 
-                    Pre-order now and be among the first to experience the future of computing.
-                  </p>
-                  
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center justify-center lg:justify-start space-x-3">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300">Intel Core i11 14th Generation</span>
-                    </div>
-                    <div className="flex items-center justify-center lg:justify-start space-x-3">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300">NVIDIA RTX 5080 Super</span>
-                    </div>
-                    <div className="flex items-center justify-center lg:justify-start space-x-3">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300">64GB DDR6 RAM</span>
-                    </div>
-                    <div className="flex items-center justify-center lg:justify-start space-x-3">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300">4TB NVMe SSD</span>
-                    </div>
-                  </div>
-                  
-                  <div className="text-3xl font-light text-blue-300 mb-8">
-                    From $4,999
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-                    <button className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-lg font-semibold transform hover:scale-105">
-                      Pre-Order Now
-                    </button>
-                    <button className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300 text-lg">
-                      Learn More
-                    </button>
-                  </div>
-                  
-                  <div className="flex items-center justify-center lg:justify-start space-x-8 text-gray-300">
-                    <div className="flex items-center space-x-2">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      <span>Free Shipping</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      <span>5-Year Warranty</span>
-                    </div>
-                  </div>
-                </div>
+   
 
-                {/* Right Content - i11 Image */}
-                <div className="relative">
-                  <div className="relative">
-                    <img 
-                      src={require('../assets/i11.jpg')} 
-                      alt="SNI i11 Laptop" 
-                      className="w-full h-96 object-cover rounded-3xl shadow-2xl"
-                    />
-                    
-                    {/* Glow Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-600/20 to-transparent rounded-3xl"></div>
-                    
-                    {/* Product Badge */}
-                    <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2">
-                      <span className="text-black font-semibold text-sm">Pre-Order</span>
-                    </div>
-                    
-                    {/* Price Badge */}
-                    <div className="absolute bottom-6 right-6 bg-blue-600 rounded-full px-4 py-2">
-                      <span className="text-white font-semibold">From $4,999</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Floating Elements */}
-              <div className="absolute top-8 left-8 w-4 h-4 bg-blue-400/30 rounded-full animate-pulse"></div>
-              <div className="absolute top-16 right-12 w-6 h-6 bg-blue-400/20 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-              <div className="absolute bottom-12 left-16 w-3 h-3 bg-blue-400/40 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
-              <div className="absolute bottom-8 right-8 w-5 h-5 bg-blue-400/25 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+
+        </div>
+      </section>
+
+      {/* Video Section - Full Width */}
+      <section className="py-0 bg-black">
+        <div className="relative w-full h-[60vh] overflow-hidden">
+          {/* Background Video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={require('../assets/productionVid.mp4')} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/40"></div>
+          
+          {/* Content */}
+          <div className="relative h-full flex items-center justify-center text-center px-6">
+            <div className="max-w-4xl">
+              <h2 className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight">
+                Innovation in Every Detail
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
+                Where cutting-edge technology meets timeless design
+              </p>
+              <button 
+                onClick={scrollToProducts}
+                className="px-8 py-4 bg-white text-black rounded-full hover:bg-gray-100 transition-all duration-300 text-lg font-medium transform hover:scale-105"
+              >
+                Explore Collection
+              </button>
             </div>
           </div>
         </div>
@@ -1090,6 +1030,13 @@ const Home = () => {
         laptop={selectedLaptop}
         isOpen={isModalOpen}
         onClose={closeModal}
+      />
+
+      {/* PDF Modal */}
+      <PdfModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+        pdfUrl={require('../assets/learnmore.pdf')}
       />
     </div>
   );

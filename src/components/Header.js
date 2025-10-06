@@ -46,10 +46,10 @@ const Header = () => {
                 }}
               />
             </div>
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <span className={`font-bold text-xl transition-colors duration-300 ${isScrolled ? 'text-text-primary' : 'text-text-primary'}`}>SNL</span>
               <span className={`text-xs -mt-1 transition-colors duration-300 ${isScrolled ? 'text-text-secondary' : 'text-text-secondary'}`}>TECHNOLOGY</span>
-            </div>
+            </div> */}
           </Link>
 
           {/* Desktop Navigation */}
