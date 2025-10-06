@@ -76,12 +76,12 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link
+            {/* <Link
               to="/"
               className="btn-primary text-sm"
             >
               Shop Now
-            </Link>
+            </Link> */}
           </div>
 
           {/* Mobile Menu Button */}

@@ -71,6 +71,26 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
           )}
         </div>
 
+        {/* Categories - Outside Filters */}
+        <div className="mb-6">
+          <h3 className="text-black font-semibold mb-3">Category</h3>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => handleCategoryChange(category)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                  selectedCategory === category
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Filter Toggle */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <button
@@ -80,7 +100,7 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.707A1 1 0 013 7V4z" />
             </svg>
-            <span className="font-medium">Filters</span>
+            <span className="font-medium">Price Range Filter</span>
             <svg
               className={`w-4 h-4 transition-transform duration-300 ${
                 isFiltersOpen ? 'rotate-180' : ''
@@ -103,51 +123,28 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
           )}
         </div>
 
-        {/* Filters */}
+        {/* Price Range Filter (Hidden by default) */}
         <div
           className={`transition-all duration-300 overflow-hidden ${
             isFiltersOpen ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'
           }`}
         >
-          <div className="space-y-6">
-            {/* Categories */}
-            <div>
-              <h3 className="text-black font-semibold mb-3">Category</h3>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => handleCategoryChange(category)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                      selectedCategory === category
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Price Range */}
-            <div>
-              <h3 className="text-black font-semibold mb-3">Price Range</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-                {priceRanges.map((range, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handlePriceRangeChange(range)}
-                    className={`px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
-                      selectedPriceRange?.label === range.label
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black'
-                    }`}
-                  >
-                    {range.label}
-                  </button>
-                ))}
-              </div>
+          <div>
+            <h3 className="text-black font-semibold mb-3">Price Range</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              {priceRanges.map((range, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePriceRangeChange(range)}
+                  className={`px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
+                    selectedPriceRange?.label === range.label
+                      ? 'bg-primary text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black'
+                  }`}
+                >
+                  {range.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>

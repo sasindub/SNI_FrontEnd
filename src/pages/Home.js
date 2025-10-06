@@ -62,6 +62,85 @@ const Home = () => {
     }
   };
 
+  // Feature cards data
+  const featureCards = [
+    {
+      title: "Lightning Fast",
+      description: "Powered by the latest Intel and AMD processors with cutting-edge graphics for unmatched performance.",
+      stat: "23x",
+      statLabel: "Faster Performance",
+      color: "blue",
+      icon: "M13 10V3L4 14h7v7l9-11h-7z"
+    },
+    {
+      title: "All-Day Battery",
+      description: "Up to 6 more hours of battery life. Work all day without interruption.",
+      stat: "18h",
+      statLabel: "Battery Life",
+      color: "green",
+      icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
+    },
+    {
+      title: "Premium Quality",
+      description: "Every device undergoes rigorous testing to ensure exceptional build quality and long-lasting reliability.",
+      stat: "100%",
+      statLabel: "Quality Tested",
+      color: "gray",
+      icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    },
+    {
+      title: "SNI Intelligence",
+      description: "Neural Engine to enable AI features for smarter, more intuitive computing.",
+      stat: "AI",
+      statLabel: "Powered",
+      color: "purple",
+      emoji: "🤖"
+    },
+    {
+      title: "Brighter Display",
+      description: "A bigger, brighter Liquid Retina display with stunning color accuracy.",
+      stat: "2x",
+      statLabel: "Brightness",
+      color: "orange",
+      icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+    },
+    {
+      title: "External Displays",
+      description: "Support for up to two external displays for enhanced productivity.",
+      stat: "2",
+      statLabel: "Displays",
+      color: "teal",
+      icon: "M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+    },
+    {
+      title: "Center Stage Camera",
+      description: "Advanced camera with Desk View for professional video calls.",
+      stat: "12MP",
+      statLabel: "HD Camera",
+      color: "red",
+      icon: "M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
+    },
+    {
+      title: "24/7 Support",
+      description: "Our dedicated support team is always ready to help you get the most out of your SNI devices.",
+      stat: "24/7",
+      statLabel: "Available",
+      color: "indigo",
+      icon: "M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z"
+    }
+  ];
+
+  const colorClasses = {
+    blue: { bg: 'from-blue-50 to-blue-100', border: 'border-blue-200', iconBg: 'bg-blue-600', text: 'text-blue-600' },
+    green: { bg: 'from-green-50 to-green-100', border: 'border-green-200', iconBg: 'bg-green-600', text: 'text-green-600' },
+    gray: { bg: 'from-gray-50 to-gray-100', border: 'border-gray-200', iconBg: 'bg-gray-800', text: 'text-gray-800' },
+    purple: { bg: 'from-purple-50 to-purple-100', border: 'border-purple-200', iconBg: 'bg-purple-600', text: 'text-purple-600' },
+    orange: { bg: 'from-orange-50 to-orange-100', border: 'border-orange-200', iconBg: 'bg-orange-600', text: 'text-orange-600' },
+    teal: { bg: 'from-teal-50 to-teal-100', border: 'border-teal-200', iconBg: 'bg-teal-600', text: 'text-teal-600' },
+    red: { bg: 'from-red-50 to-red-100', border: 'border-red-200', iconBg: 'bg-red-600', text: 'text-red-600' },
+    indigo: { bg: 'from-indigo-50 to-indigo-100', border: 'border-indigo-200', iconBg: 'bg-indigo-600', text: 'text-indigo-600' }
+  };
+
   // Auto-slide carousel
   useEffect(() => {
     const interval = setInterval(() => {
@@ -77,6 +156,43 @@ const Home = () => {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + 3) % 3);
   };
+
+  // Auto-scroll for features section with smooth looping
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef(null);
+  const scrollPositionRef = useRef(0);
+  
+  useEffect(() => {
+    const scrollContainer = document.getElementById('features-scroll');
+    if (!scrollContainer) return;
+    scrollContainerRef.current = scrollContainer;
+
+    let animationId;
+    const scrollSpeed = 1.5; // Smooth scrolling speed
+
+    const smoothScroll = () => {
+      if (!isPaused && scrollContainerRef.current) {
+        scrollPositionRef.current += scrollSpeed;
+        const maxScroll = scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth;
+        
+        // Smooth loop: reset to start when reaching end
+        if (scrollPositionRef.current >= maxScroll) {
+          scrollPositionRef.current = 0;
+        }
+        
+        scrollContainerRef.current.scrollLeft = scrollPositionRef.current;
+      }
+      animationId = requestAnimationFrame(smoothScroll);
+    };
+
+    animationId = requestAnimationFrame(smoothScroll);
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, [isPaused]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -550,7 +666,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Why Choose SNI */}
+      {/* Combined Why Choose SNI & Features Section - Horizontal Scroll */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -558,128 +674,47 @@ const Home = () => {
               Why Choose <span className="text-blue-600">SNI</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We're committed to delivering exceptional computing experiences with cutting-edge technology.
+              There's never been a better time to upgrade. Here's what you get with SNI devices.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-light text-black mb-4">Lightning Fast</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Powered by the latest Intel and AMD processors with cutting-edge graphics for unmatched performance.
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-light text-black mb-4">Premium Quality</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Every device undergoes rigorous testing to ensure exceptional build quality and long-lasting reliability.
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-6 bg-purple-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-light text-black mb-4">24/7 Support</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Our dedicated support team is always ready to help you get the most out of your SNI devices.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Apple-style Comparison Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
-              There's never been a better time to upgrade.
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Here's what you get with the new SNI devices.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Performance */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
-              <div className="text-center">
-                <div className="text-6xl font-light text-blue-600 mb-4">23x</div>
-                <h3 className="text-xl font-medium text-black mb-4">Faster Performance</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Revolutionary processing power that transforms your computing experience.
-                </p>
-              </div>
-            </div>
-
-            {/* Battery Life */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
-              <div className="text-center">
-                <div className="text-6xl font-light text-green-600 mb-4">18h</div>
-                <h3 className="text-xl font-medium text-black mb-4">Battery Life</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Up to 6 more hours of battery life. Work all day without interruption.
-                </p>
-              </div>
-            </div>
-
-            {/* AI Features */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
-              <div className="text-center">
-                <div className="text-6xl font-light text-purple-600 mb-4">AI</div>
-                <h3 className="text-xl font-medium text-black mb-4">SNI Intelligence</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Neural Engine to enable AI features for smarter, more intuitive computing.
-                </p>
-              </div>
-            </div>
-
-            {/* Display */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
-              <div className="text-center">
-                <div className="text-6xl font-light text-orange-600 mb-4">2x</div>
-                <h3 className="text-xl font-medium text-black mb-4">Brighter Display</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  A bigger, brighter Liquid Retina display with stunning color accuracy.
-                </p>
-              </div>
-            </div>
-
-            {/* Connectivity */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
-              <div className="text-center">
-                <div className="text-6xl font-light text-teal-600 mb-4">2</div>
-                <h3 className="text-xl font-medium text-black mb-4">External Displays</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Support for up to two external displays for enhanced productivity.
-                </p>
-              </div>
-            </div>
-
-            {/* Camera */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
-              <div className="text-center">
-                <div className="text-6xl font-light text-red-600 mb-4">12MP</div>
-                <h3 className="text-xl font-medium text-black mb-4">Center Stage Camera</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Advanced camera with Desk View for professional video calls.
-                </p>
-              </div>
-            </div>
+          <div 
+            className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide" 
+            id="features-scroll"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            style={{ scrollBehavior: 'auto' }}
+          >
+            {/* Render cards once */}
+            {featureCards.map((card, index) => {
+              const colors = colorClasses[card.color];
+              return (
+                <div 
+                  key={index} 
+                  className={`flex-shrink-0 w-80 h-[500px] rounded-3xl bg-gradient-to-br ${colors.bg} p-8 flex flex-col justify-between group cursor-pointer hover:shadow-2xl transition-all duration-500 border ${colors.border}`}
+                >
+                  <div>
+                    <div className={`w-20 h-20 ${colors.iconBg} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
+                      {card.emoji ? (
+                        <span className="text-3xl">{card.emoji}</span>
+                      ) : (
+                        <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d={card.icon} />
+                        </svg>
+                      )}
+                    </div>
+                    <h3 className="text-3xl font-light text-black mb-4">{card.title}</h3>
+                    <p className="text-gray-700 leading-relaxed mb-6">
+                      {card.description}
+                    </p>
+                  </div>
+                  <div>
+                    <div className={`text-6xl font-light ${colors.text} mb-2`}>{card.stat}</div>
+                    <p className="text-gray-600 text-lg">{card.statLabel}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {/* New Laptop Pre-Order Banner */}
@@ -857,12 +892,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* All Products Section */}
+      {/* Products Section */}
       <section id="products-section" className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
-              Shop All Products
+              Shop Products
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Discover our complete range of laptops, PCs, and audio devices.
@@ -877,97 +912,157 @@ const Home = () => {
             />
           </div>
 
-          {/* Products Grid */}
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProducts.map((product) => (
-                <LaptopCard
-                  key={product.id} 
-                  laptop={product} 
-                  onQuickView={handleQuickView}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-light text-black mb-4">No products found</h3>
-              <p className="text-gray-600 mb-6">
-                Try adjusting your search terms or filters to find what you're looking for.
-              </p>
-              <button
-                onClick={() => {
-                  setSearchTerm('');
-                  setFilters({ category: 'All', priceRange: null, deviceType: 'All' });
-                }}
-                className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300"
-              >
-                Clear Filters
+          {/* Top Products - Horizontal Scroll */}
+          <div className="mb-20">
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-3xl font-light text-black">Top Products</h3>
+              <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300">
+                View All →
               </button>
             </div>
-          )}
+            <div className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+              {filteredProducts.slice(0, 6).map((product) => (
+                <div key={product.id} className="flex-shrink-0 w-80 snap-center">
+                  <LaptopCard
+                    laptop={product} 
+                    onQuickView={handleQuickView}
+                  />
+                </div>
+              ))}
+              {filteredProducts.length === 0 && (
+                <div className="flex-shrink-0 w-full text-center py-16">
+                  <h3 className="text-2xl font-light text-black mb-4">No top products found</h3>
+                  <p className="text-gray-600">Try adjusting your filters</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* All Products - Horizontal Scroll */}
+          <div>
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-3xl font-light text-black">All Products</h3>
+              <p className="text-gray-600">
+                {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+              </p>
+            </div>
+            
+            {filteredProducts.length > 0 ? (
+              <div className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+                {filteredProducts.map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-80 snap-center">
+                    <LaptopCard
+                      laptop={product} 
+                      onQuickView={handleQuickView}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                  <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-light text-black mb-4">No products found</h3>
+                <p className="text-gray-600 mb-6">
+                  Try adjusting your search terms or filters to find what you're looking for.
+                </p>
+                <button
+                  onClick={() => {
+                    setSearchTerm('');
+                    setFilters({ category: 'All', priceRange: null, deviceType: 'All' });
+                  }}
+                  className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-20">
+      <footer className="bg-black text-white py-12">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div>
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-black font-bold text-sm">SNI</span>
-                </div>
-                <span className="text-xl font-light">SNI Technology</span>
+                <img 
+                  src={require('../assets/snl_logo.png')} 
+                  alt="SNI Logo" 
+                  className="w-8 h-8 object-contain"
+                  style={{
+                    filter: 'brightness(0) saturate(100%) invert(17%) sepia(94%) saturate(7151%) hue-rotate(358deg) brightness(91%) contrast(118%)'
+                  }}
+                />
               </div>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-gray-400 leading-relaxed mb-4 text-sm">
                 Revolutionizing computing with innovative technology and premium craftsmanship.
               </p>
+              
+              {/* Social Media Icons */}
+              <div className="flex space-x-4">
+                <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-6">Shop</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Laptops</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">PCs</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Audio</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Accessories</a></li>
+              <h3 className="text-base font-medium mb-4">Shop</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Laptops</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">PCs</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Audio</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Accessories</a></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-6">Support</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Help Center</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Warranty</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Contact Us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Repair</a></li>
+              <h3 className="text-base font-medium mb-4">Support</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Help Center</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Warranty</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">Contact Us</a></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-6">Company</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">About Us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Careers</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">News</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Investors</a></li>
+              <h3 className="text-base font-medium mb-4">Company</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">About Us</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
+          <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-xs">
               Copyright © 2025 SNI Technology. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Privacy Policy</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Cookies</a>
+            <div className="flex space-x-4 mt-3 md:mt-0">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-xs">Privacy Policy</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-xs">Terms of Service</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-xs">Cookies</a>
             </div>
           </div>
         </div>
