@@ -172,6 +172,14 @@ const Home = () => {
       ref.current.scrollBy({ left: delta, behavior: 'smooth' });
     }
   };
+
+  // Resolve video source with env override and robust fallback
+  const rawVideoEnv = (process.env.REACT_APP_PRODUCTION_VIDEO_URL || '').trim();
+  const videoSrc = rawVideoEnv
+    ? (rawVideoEnv.startsWith('http')
+        ? rawVideoEnv
+        : `${process.env.PUBLIC_URL || ''}${rawVideoEnv.startsWith('/') ? '' : '/'}${rawVideoEnv}`)
+    : `${process.env.PUBLIC_URL || ''}/productionVid.mp4`;
   
   useEffect(() => {
     const scrollContainer = document.getElementById('features-scroll');
@@ -748,7 +756,7 @@ const Home = () => {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src={process.env.REACT_APP_PRODUCTION_VIDEO_URL || '/productionVid.mp4'} type="video/mp4" />
+            <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           
