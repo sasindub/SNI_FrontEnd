@@ -163,6 +163,15 @@ const Home = () => {
   const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef(null);
   const scrollPositionRef = useRef(0);
+  const learnMoreRef = useRef(null);
+  const topProductsRef = useRef(null);
+  const allProductsRef = useRef(null);
+
+  const scrollHorizontally = (ref, delta) => {
+    if (ref && ref.current) {
+      ref.current.scrollBy({ left: delta, behavior: 'smooth' });
+    }
+  };
   
   useEffect(() => {
     const scrollContainer = document.getElementById('features-scroll');
@@ -778,7 +787,8 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide">
+          <div className="relative group">
+            <div ref={learnMoreRef} className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide">
             {[
               {
                 title: "Innovation First",
@@ -845,6 +855,23 @@ const Home = () => {
                 </div>
               </div>
             ))}
+            </div>
+            <button
+              onClick={() => scrollHorizontally(learnMoreRef, -320)}
+              className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+            >
+              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={() => scrollHorizontally(learnMoreRef, 320)}
+              className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+            >
+              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
@@ -877,21 +904,39 @@ const Home = () => {
                 View All →
               </button>
             </div>
-            <div className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
-              {filteredProducts.slice(0, 6).map((product) => (
-                <div key={product.id} className="flex-shrink-0 w-80 snap-center">
-                  <LaptopCard
-                    laptop={product} 
-                    onQuickView={handleQuickView}
-                  />
-                </div>
-              ))}
-              {filteredProducts.length === 0 && (
-                <div className="flex-shrink-0 w-full text-center py-16">
-                  <h3 className="text-2xl font-light text-black mb-4">No top products found</h3>
-                  <p className="text-gray-600">Try adjusting your filters</p>
-                </div>
-              )}
+            <div className="relative group">
+              <div ref={topProductsRef} className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+                {filteredProducts.slice(0, 6).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-80 snap-center">
+                    <LaptopCard
+                      laptop={product} 
+                      onQuickView={handleQuickView}
+                    />
+                  </div>
+                ))}
+                {filteredProducts.length === 0 && (
+                  <div className="flex-shrink-0 w-full text-center py-16">
+                    <h3 className="text-2xl font-light text-black mb-4">No top products found</h3>
+                    <p className="text-gray-600">Try adjusting your filters</p>
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={() => scrollHorizontally(topProductsRef, -320)}
+                className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+              >
+                <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => scrollHorizontally(topProductsRef, 320)}
+                className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+              >
+                <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -905,15 +950,33 @@ const Home = () => {
             </div>
             
             {filteredProducts.length > 0 ? (
-              <div className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
-                {filteredProducts.map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-80 snap-center">
-                    <LaptopCard
-                      laptop={product} 
-                      onQuickView={handleQuickView}
-                    />
-                  </div>
-                ))}
+              <div className="relative group">
+                <div ref={allProductsRef} className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+                  {filteredProducts.map((product) => (
+                    <div key={product.id} className="flex-shrink-0 w-80 snap-center">
+                      <LaptopCard
+                        laptop={product} 
+                        onQuickView={handleQuickView}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={() => scrollHorizontally(allProductsRef, -320)}
+                  className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+                >
+                  <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => scrollHorizontally(allProductsRef, 320)}
+                  className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+                >
+                  <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </div>
             ) : (
               <div className="text-center py-16">
