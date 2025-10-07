@@ -1,6 +1,6 @@
 import React from 'react';
 
-const QuickViewModal = ({ laptop, isOpen, onClose }) => {
+const QuickViewModal = ({ laptop, isOpen, onClose, onOrder }) => {
   if (!isOpen || !laptop) return null;
 
   return (
@@ -132,7 +132,10 @@ const QuickViewModal = ({ laptop, isOpen, onClose }) => {
               {/* Actions */}
               <div className="space-y-4">
                 <div className="flex space-x-4">
-                  <button className="flex-1 btn-primary text-lg py-4">
+                  <button 
+                    onClick={() => onOrder(laptop)}
+                    className="flex-1 btn-primary text-lg py-4"
+                  >
                     {laptop.isPreOrder ? 'Pre-Order Now' : 'Order Now'} - ${laptop.price.toLocaleString()}
                   </button>
                   <button className="px-6 py-4 bg-gray-100 hover:bg-gray-200 transition-all duration-300 rounded-xl">

@@ -3,6 +3,7 @@ import SearchAndFilter from "../components/SearchAndFilter";
 import LaptopCard from "../components/LaptopCard";
 import QuickViewModal from "../components/QuickViewModal";
 import PdfModal from "../components/PdfModal";
+import OrderModal from "../components/OrderModal";
 import { allProducts } from "../data/laptops";
 
 const Home = () => {
@@ -15,6 +16,8 @@ const Home = () => {
   const [selectedLaptop, setSelectedLaptop] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [orderProduct, setOrderProduct] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Filter products based on search and filters
@@ -65,6 +68,16 @@ const Home = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedLaptop(null);
+  };
+
+  const handleOrder = (product) => {
+    setOrderProduct(product);
+    setIsOrderModalOpen(true);
+  };
+
+  const closeOrderModal = () => {
+    setIsOrderModalOpen(false);
+    setOrderProduct(null);
   };
 
   const scrollToProducts = () => {
@@ -1135,6 +1148,7 @@ const Home = () => {
                     <LaptopCard
                       laptop={product}
                       onQuickView={handleQuickView}
+                      onOrder={handleOrder}
                     />
                   </div>
                 ))}
@@ -1210,6 +1224,7 @@ const Home = () => {
                       <LaptopCard
                         laptop={product}
                         onQuickView={handleQuickView}
+                        onOrder={handleOrder}
                       />
                     </div>
                   ))}
@@ -1484,6 +1499,7 @@ const Home = () => {
         laptop={selectedLaptop}
         isOpen={isModalOpen}
         onClose={closeModal}
+        onOrder={handleOrder}
       />
 
       {/* PDF Modal */}
@@ -1491,6 +1507,13 @@ const Home = () => {
         isOpen={isPdfModalOpen}
         onClose={() => setIsPdfModalOpen(false)}
         pdfUrl={require("../assets/learnmore.pdf")}
+      />
+
+      {/* Order Modal */}
+      <OrderModal
+        isOpen={isOrderModalOpen}
+        onClose={closeOrderModal}
+        product={orderProduct}
       />
     </div>
   );

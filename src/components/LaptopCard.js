@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const LaptopCard = ({ laptop, onQuickView }) => {
+const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -120,7 +120,13 @@ const LaptopCard = ({ laptop, onQuickView }) => {
 
         {/* Actions */}
         <div className="flex space-x-3">
-          <button className="flex-1 btn-primary text-sm py-2">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onOrder(laptop);
+            }}
+            className="flex-1 btn-primary text-sm py-2"
+          >
             {laptop.isPreOrder ? 'Pre-Order' : 'Order Now'}
           </button>
           <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 transition-all duration-300 rounded-lg">
