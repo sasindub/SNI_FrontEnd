@@ -1,3 +1,17 @@
+## Environment Variables
+
+For production video playback on Railway, set the following environment variable:
+
+- `REACT_APP_PRODUCTION_VIDEO_URL`: Full HTTPS URL to your `productionVid.mp4` file (e.g., a CDN or object storage URL). If unset, the app falls back to `/productionVid.mp4` from the `public/` folder.
+
+In local development, you can create a `.env` file with:
+
+```
+REACT_APP_PRODUCTION_VIDEO_URL=http://localhost:3000/productionVid.mp4
+```
+
+On Railway, add this variable in the service settings under Environment.
+
 # SNI Laptops - Premium E-commerce Website
 
 A stunning, modern 2025-style e-commerce website for SNI laptops built with React and Tailwind CSS.

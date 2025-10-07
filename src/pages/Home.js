@@ -748,7 +748,7 @@ const Home = () => {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="/productionVid.mp4" type="video/mp4" />
+            <source src={process.env.REACT_APP_PRODUCTION_VIDEO_URL || '/productionVid.mp4'} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           
