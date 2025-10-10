@@ -110,6 +110,25 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .animate-fade-in-up {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .image-hover-effect {
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .image-hover-effect:hover {
+    transform: scale(1.05) rotate(1deg);
+  }
 }
 
 @keyframes float {

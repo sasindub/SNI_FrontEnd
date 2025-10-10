@@ -4,6 +4,7 @@ import LaptopCard from "../components/LaptopCard";
 import QuickViewModal from "../components/QuickViewModal";
 import PdfModal from "../components/PdfModal";
 import OrderModal from "../components/OrderModal";
+import PdfViewerModal from "../components/PdfViewerModal";
 import { allProducts } from "../data/laptops";
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [orderProduct, setOrderProduct] = useState(null);
+  const [pdfModal, setPdfModal] = useState({ isOpen: false, pdfUrl: '', title: '' });
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Filter products based on search and filters
@@ -78,6 +80,34 @@ const Home = () => {
   const closeOrderModal = () => {
     setIsOrderModalOpen(false);
     setOrderProduct(null);
+  };
+
+  const openPdfModal = (pdfType) => {
+    let pdfUrl = '';
+    let title = '';
+    
+    switch(pdfType) {
+      case 'privacy':
+        pdfUrl = require('../assets/privacypolicy.pdf');
+        title = 'Privacy Policy';
+        break;
+      case 'terms':
+        pdfUrl = require('../assets/tandc.pdf');
+        title = 'Terms & Conditions';
+        break;
+      case 'cookies':
+        pdfUrl = require('../assets/cookiespolicy.pdf');
+        title = 'Cookies Policy';
+        break;
+      default:
+        return;
+    }
+    
+    setPdfModal({ isOpen: true, pdfUrl, title });
+  };
+
+  const closePdfModal = () => {
+    setPdfModal({ isOpen: false, pdfUrl: '', title: '' });
   };
 
   const scrollToProducts = () => {
@@ -1201,7 +1231,7 @@ const Home = () => {
           </div>
 
           {/* All Products - Horizontal Scroll */}
-          <div>
+          <div id="products-section">
             <div className="flex items-center justify-between mb-8">
               <h3 className="text-3xl font-light text-black">All Products</h3>
               <p className="text-gray-600">
@@ -1471,24 +1501,24 @@ const Home = () => {
               Copyright © 2025 SNI Technology. All rights reserved.
             </p>
             <div className="flex space-x-4 mt-3 md:mt-0">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-300 text-xs"
+              <button
+                onClick={() => openPdfModal('privacy')}
+                className="text-gray-400 hover:text-white transition-colors duration-300 text-xs cursor-pointer"
               >
                 Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-300 text-xs"
+              </button>
+              <button
+                onClick={() => openPdfModal('terms')}
+                className="text-gray-400 hover:text-white transition-colors duration-300 text-xs cursor-pointer"
               >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-300 text-xs"
+                Terms & Conditions
+              </button>
+              <button
+                onClick={() => openPdfModal('cookies')}
+                className="text-gray-400 hover:text-white transition-colors duration-300 text-xs cursor-pointer"
               >
-                Cookies
-              </a>
+                Cookies Policy
+              </button>
             </div>
           </div>
         </div>
@@ -1514,6 +1544,14 @@ const Home = () => {
         isOpen={isOrderModalOpen}
         onClose={closeOrderModal}
         product={orderProduct}
+      />
+
+      {/* PDF Viewer Modal */}
+      <PdfViewerModal
+        isOpen={pdfModal.isOpen}
+        onClose={closePdfModal}
+        pdfUrl={pdfModal.pdfUrl}
+        title={pdfModal.title}
       />
     </div>
   );
