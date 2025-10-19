@@ -238,10 +238,136 @@ export const ipods = [
   }
 ];
 
-export const allProducts = [...laptops, ...pcs, ...ipods];
+export const accessories = [
+  {
+    id: 13,
+    name: "SNI Gaming Mouse Pro",
+    category: "Gaming",
+    deviceType: "accessory",
+    price: 89,
+    image: require("../assets/products/Accessories.jpg"),
+    specs: {
+      sensor: "Optical 16000 DPI",
+      connectivity: "Wireless + Wired",
+      battery: "50 hours",
+      buttons: "Programmable RGB",
+      weight: "85g"
+    },
+    features: ["RGB Lighting", "Wireless", "Ergonomic"],
+    rating: 4.8,
+    reviews: 156
+  },
+  {
+    id: 14,
+    name: "SNI Mechanical Keyboard",
+    category: "Professional",
+    deviceType: "accessory",
+    price: 149,
+    image: require("../assets/products/Accessories.jpg"),
+    specs: {
+      switches: "Cherry MX Blue",
+      connectivity: "USB-C",
+      backlight: "RGB Per-key",
+      layout: "Full Size",
+      material: "Aluminum Frame"
+    },
+    features: ["Mechanical Switches", "RGB Backlight", "Durable Build"],
+    rating: 4.7,
+    reviews: 89
+  }
+];
 
-export const categories = ["All", "Gaming", "Professional", "Content Creation", "Premium", "Portable", "Classic"];
-export const deviceTypes = ["All", "laptop", "pc", "ipod"];
+export const allInOne = [
+  {
+    id: 15,
+    name: "SNI All-in-One Pro",
+    category: "Professional",
+    deviceType: "all-in-one",
+    price: 2199,
+    image: require("../assets/products/AllinOne.png"),
+    specs: {
+      cpu: "Intel Core i7-13700",
+      gpu: "Intel Iris Xe",
+      ram: "16GB DDR4",
+      storage: "512GB NVMe SSD",
+      display: "27\" 4K Touch",
+      connectivity: "WiFi 6 + Bluetooth"
+    },
+    features: ["4K Touch Display", "Space Saving", "Modern Design"],
+    rating: 4.6,
+    reviews: 73
+  }
+];
+
+export const kidsTablets = [
+  {
+    id: 16,
+    name: "SNI KidsPad",
+    category: "Educational",
+    deviceType: "kids-tablet",
+    price: 299,
+    image: require("../assets/products/kidsTablet.png"),
+    specs: {
+      display: "10.1\" HD",
+      storage: "32GB",
+      battery: "8 hours",
+      parental: "Parental Controls",
+      durability: "Shock Resistant"
+    },
+    features: ["Educational Apps", "Parental Controls", "Durable Design"],
+    rating: 4.5,
+    reviews: 234
+  }
+];
+
+export const miniPcs = [
+  {
+    id: 17,
+    name: "SNI Mini Station",
+    category: "Professional",
+    deviceType: "mini-pc",
+    price: 899,
+    image: require("../assets/products/miniPc.jpg"),
+    specs: {
+      cpu: "Intel Core i5-12400",
+      gpu: "Intel UHD Graphics",
+      ram: "8GB DDR4",
+      storage: "256GB NVMe SSD",
+      size: "Compact 4x4 inches",
+      connectivity: "WiFi 6 + Ethernet"
+    },
+    features: ["Compact Size", "Low Power", "Silent Operation"],
+    rating: 4.7,
+    reviews: 112
+  }
+];
+
+export const tabletPcs = [
+  {
+    id: 18,
+    name: "SNI Tablet Pro",
+    category: "Professional",
+    deviceType: "tablet-pc",
+    price: 1299,
+    image: require("../assets/products/tabletPc.jpg"),
+    specs: {
+      display: "13.3\" 2K Touch",
+      cpu: "Intel Core i5-1235U",
+      ram: "8GB LPDDR4",
+      storage: "512GB NVMe SSD",
+      battery: "12 hours",
+      connectivity: "WiFi 6 + 4G LTE"
+    },
+    features: ["Touch Interface", "Detachable Keyboard", "Long Battery"],
+    rating: 4.6,
+    reviews: 89
+  }
+];
+
+export const allProducts = [...laptops, ...pcs, ...ipods, ...accessories, ...allInOne, ...kidsTablets, ...miniPcs, ...tabletPcs];
+
+export const categories = ["All", "Gaming", "Professional", "Content Creation", "Premium", "Portable", "Classic", "Educational"];
+export const deviceTypes = ["All", "laptop", "pc", "ipod", "accessory", "all-in-one", "kids-tablet", "mini-pc", "tablet-pc"];
 
 export const priceRanges = [
   { label: "Under $1,500", min: 0, max: 1500 },

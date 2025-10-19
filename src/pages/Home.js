@@ -765,15 +765,15 @@ const Home = () => {
           </div>
 
           {/* Large Product Tiles */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
             {/* Laptops */}
             <div className="group cursor-pointer">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-12 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-12 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 h-full">
                 <div className="mb-8">
                   <img
                     src={require("../assets/laptop-gaming.jpg")}
                     alt="Laptops"
-                    className="w-full h-64 object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-64 object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <h3 className="text-3xl font-light text-black mb-4">Laptops</h3>
@@ -791,27 +791,46 @@ const Home = () => {
               </div>
             </div>
 
-            {/* PCs */}
+            {/* All-in-One */}
             <div className="group cursor-pointer">
-              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-12 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-12 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 h-full">
                 <div className="mb-8">
                   <img
-                    src={require("../assets/laptop-workstation.jpg")}
-                    alt="PCs"
-                    className="w-full h-64 object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                    src={require("../assets/products/AllinOne.png")}
+                    alt="All-in-One"
+                    className="w-full h-64 object-contain rounded-3xl group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <h3 className="text-3xl font-light text-black mb-4">PCs</h3>
+                <h3 className="text-3xl font-light text-black mb-4">All-in-One</h3>
                 <p className="text-gray-600 mb-6">
-                  High-performance desktop computing
+                  Sleek desktop solutions with integrated displays
                 </p>
-                <div className="flex gap-4 justify-center">
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Learn more
-                  </button>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Shop
-                  </button>
+                <div className="flex justify-center">
+                  <span className="inline-flex items-center px-6 py-3 rounded-full text-lg font-medium bg-orange-100 text-orange-800">
+                    Coming Soon
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Tablet PC */}
+            <div className="group cursor-pointer">
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-12 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 h-full">
+                <div className="mb-8">
+                  <img
+                    src={require("../assets/products/tabletPc.png")}
+                    alt="Tablet PC"
+                    className="w-full h-64 object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <h3 className="text-3xl font-light text-black mb-4">Tablet PC</h3>
+                <p className="text-gray-600 mb-6">
+                  Versatile computing with touch interface
+                </p>
+                <div className="flex justify-center">
+                  <span className="inline-flex items-center px-6 py-3 rounded-full text-lg font-medium bg-orange-100 text-orange-800">
+                    Coming Soon
+                  </span>
                 </div>
               </div>
             </div>
@@ -819,77 +838,64 @@ const Home = () => {
 
           {/* Smaller Product Tiles */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Notebooks */}
-            <div className="group cursor-pointer">
-              <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
-                <div className="mb-6">
-                  <img
-                    src={require("../assets/laptop-ultrabook.jpg")}
-                    alt="Notebooks"
-                    className="w-full h-48 object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <h4 className="text-2xl font-light text-black mb-2">
-                  Notebooks
-                </h4>
-                <p className="text-gray-600 mb-4">
-                  Ultra-portable productivity
-                </p>
-                <div className="flex gap-4 justify-center text-sm">
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Learn more
-                  </button>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Shop
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* iPods */}
-            <div className="group cursor-pointer">
-              <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
-                <div className="mb-6">
-                  <img
-                    src={require("../assets/laptop-business.jpg")}
-                    alt="iPods"
-                    className="w-full h-48 object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <h4 className="text-2xl font-light text-black mb-2">iPods</h4>
-                <p className="text-gray-600 mb-4">Premium audio experience</p>
-                <div className="flex gap-4 justify-center text-sm">
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Learn more
-                  </button>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Shop
-                  </button>
-                </div>
-              </div>
-            </div>
-
             {/* Accessories */}
             <div className="group cursor-pointer">
               <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                 <div className="mb-6">
                   <img
-                    src={require("../assets/laptop-gaming.jpg")}
+                    src={require("../assets/products/Accessories.jpg")}
                     alt="Accessories"
-                    className="w-full h-48 object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-48 object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <h4 className="text-2xl font-light text-black mb-2">
                   Accessories
                 </h4>
                 <p className="text-gray-600 mb-4">Complete your setup</p>
-                <div className="flex gap-4 justify-center text-sm">
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Learn more
-                  </button>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Shop
-                  </button>
+                <div className="flex justify-center">
+                  <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                    Coming Soon
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Kids Tablets */}
+            <div className="group cursor-pointer">
+              <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                <div className="mb-6">
+                  <img
+                    src={require("../assets/products/kidsTablet.png")}
+                    alt="Kids Tablets"
+                    className="w-full h-48 object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <h4 className="text-2xl font-light text-black mb-2">Kids Tablets</h4>
+                <p className="text-gray-600 mb-4">Educational and fun for young minds</p>
+                <div className="flex justify-center">
+                  <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                    Coming Soon
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Mini PC */}
+            <div className="group cursor-pointer">
+              <div className="bg-gray-50 rounded-3xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                <div className="mb-6">
+                  <img
+                    src={require("../assets/products/miniPc.jpg")}
+                    alt="Mini PC"
+                    className="w-full h-48 object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <h4 className="text-2xl font-light text-black mb-2">Mini PC</h4>
+                <p className="text-gray-600 mb-4">Compact power in small form factor</p>
+                <div className="flex justify-center">
+                  <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                    Coming Soon
+                  </span>
                 </div>
               </div>
             </div>

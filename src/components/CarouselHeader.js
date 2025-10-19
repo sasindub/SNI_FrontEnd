@@ -15,19 +15,19 @@ const CarouselHeader = ({ onCategorySelect }) => {
       color: 'from-blue-500 to-purple-600'
     },
     {
-      id: 'pcs',
-      name: 'PCs',
-      image: require('../assets/laptop-workstation.jpg'),
-      description: 'High-performance desktop computers',
-      features: ['Maximum Power', 'Customizable', 'Future-Proof'],
+      id: 'all-in-one',
+      name: 'All-in-One',
+      image: require('../assets/products/AllinOne.png'),
+      description: 'Sleek desktop solutions with integrated displays',
+      features: ['Space Saving', 'Integrated Display', 'Modern Design'],
       color: 'from-red-500 to-pink-600'
     },
     {
-      id: 'ipods',
-      name: 'SNI iPods',
-      image: require('../assets/laptop-ultrabook.jpg'),
-      description: 'Premium portable audio devices',
-      features: ['Lossless Audio', 'Long Battery', 'Premium Build'],
+      id: 'tablets',
+      name: 'Tablet PC',
+      image: require('../assets/products/tabletPc.jpg'),
+      description: 'Versatile computing with touch interface',
+      features: ['Touch Interface', 'Portable', 'Versatile'],
       color: 'from-green-500 to-teal-600'
     }
   ];
