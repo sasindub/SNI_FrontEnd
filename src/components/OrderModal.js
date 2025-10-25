@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiFetch } from '../config/api';
 
 const OrderModal = ({ isOpen, onClose, product }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -112,12 +113,8 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     };
 
     try {
-      // TODO: Replace with actual Flask API endpoint
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await apiFetch('/api/orders', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(orderData)
       });
 

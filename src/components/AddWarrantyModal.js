@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import { apiFetch } from '../config/api';
 
 const AddWarrantyModal = ({ warranty, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -65,9 +66,9 @@ const AddWarrantyModal = ({ warranty, onClose, onSave }) => {
     setGeneralError('');
 
     try {
-      const url = warranty
-        ? `http://localhost:5000/api/warranties/${warranty._id}`
-        : 'http://localhost:5000/api/warranties';
+      const endpoint = warranty
+        ? `/api/admin/warranties/${warranty._id}`
+        : '/api/admin/warranties';
       
       const method = warranty ? 'PUT' : 'POST';
 
@@ -78,12 +79,8 @@ const AddWarrantyModal = ({ warranty, onClose, onSave }) => {
         warranty_end_date: formData.warranty_end_date ? new Date(formData.warranty_end_date).toISOString() : ''
       };
 
-      const response = await fetch(url, {
+      const response = await apiFetch(endpoint, {
         method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
         body: JSON.stringify(dataToSend)
       });
 

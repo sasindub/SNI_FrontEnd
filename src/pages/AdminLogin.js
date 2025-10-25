@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User } from 'lucide-react';
+import { apiFetch, setAuthToken } from '../config/api';
 
 const AdminLogin = () => {
   const [credentials, setCredentials] = useState({
@@ -18,9 +19,7 @@ const AdminLogin = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/check-auth', {
-        credentials: 'include'
-      });
+      const response = await apiFetch('/api/admin/verify');
       const data = await response.json();
       
       if (data.authenticated) {
@@ -45,18 +44,18 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/admin/login', {
+      const response = await apiFetch('/api/admin/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
         body: JSON.stringify(credentials)
       });
 
       const data = await response.json();
 
       if (data.success) {
+        // Store token if provided (for cross-origin auth)
+        if (data.token) {
+          setAuthToken(data.token);
+        }
         navigate('/admin/dashboard');
       } else {
         setError(data.message || 'Login failed');

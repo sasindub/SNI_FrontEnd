@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Plus, Edit, Search, Calendar } from 'lucide-react';
 import AddWarrantyModal from '../components/AddWarrantyModal';
+import { setAuthToken } from '../config/api';
+import { apiFetch } from '../config/api';
 
 const AdminDashboard = () => {
   const [warranties, setWarranties] = useState([]);
@@ -24,9 +26,7 @@ const AdminDashboard = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/check-auth', {
-        credentials: 'include'
-      });
+      const response = await apiFetch('/api/admin/verify');
       const data = await response.json();
 
       if (!data.authenticated) {
@@ -43,19 +43,24 @@ const AdminDashboard = () => {
 
   const fetchWarranties = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/warranties', {
-        credentials: 'include'
-      });
+      console.log('Fetching warranties...');
+      const response = await apiFetch('/api/admin/warranties');
+      console.log('Response status:', response.status);
+      
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (data.success) {
+        console.log('Warranties loaded:', data.warranties.length);
         setWarranties(data.warranties);
         setFilteredWarranties(data.warranties);
       } else {
         console.error('Error fetching warranties:', data.message);
+        alert('Error loading warranties: ' + (data.message || 'Unknown error'));
       }
     } catch (error) {
       console.error('Error fetching warranties:', error);
+      alert('Failed to load warranties: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -80,16 +85,10 @@ const AdminDashboard = () => {
     setFilteredWarranties(filtered);
   };
 
-  const handleLogout = async () => {
-    try {
-      await fetch('http://localhost:5000/api/admin/logout', {
-        method: 'POST',
-        credentials: 'include'
-      });
-      navigate('/admin');
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
+  const handleLogout = () => {
+    // Just clear token and redirect
+    setAuthToken(null);
+    navigate('/admin');
   };
 
   const handleAddWarranty = () => {
