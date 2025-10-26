@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL || 'https://snibackend-production.up.railway.app';
+
 const WarrantyChecker = () => {
   const [serialNumber, setSerialNumber] = useState('');
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [warrantyResult, setWarrantyResult] = useState(null);
   const [activeTab, setActiveTab] = useState('manual');
+  const [showPasscodeField, setShowPasscodeField] = useState(false);
+  const [passcode, setPasscode] = useState('');
+  const [error, setError] = useState('');
+  const [warrantyStatus, setWarrantyStatus] = useState('');
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -22,55 +28,95 @@ const WarrantyChecker = () => {
 
   const checkWarranty = async () => {
     setIsLoading(true);
+    setError('');
+    setWarrantyResult(null);
+    setShowPasscodeField(false);
     
-    // Simulate API call
-    setTimeout(() => {
-      const mockResults = [
-        {
-          serialNumber: 'SNI2024P001',
-          model: 'SNI Phantom X1',
-          purchaseDate: '2024-01-15',
-          warrantyExpiry: '2027-01-15',
-          status: 'Active',
-          coverage: '3-Year Premium Warranty',
-          remainingDays: 892
+    try {
+      const response = await fetch(`${API_URL}/api/warranty/check`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          serialNumber: 'SNI2024V002',
-          model: 'SNI Velocity V2',
-          purchaseDate: '2024-03-22',
-          warrantyExpiry: '2027-03-22',
-          status: 'Active',
-          coverage: '3-Year Premium Warranty',
-          remainingDays: 793
-        },
-        {
-          serialNumber: 'SNI2023W003',
-          model: 'SNI WorkStation Pro',
-          purchaseDate: '2023-11-08',
-          warrantyExpiry: '2026-11-08',
-          status: 'Active',
-          coverage: '3-Year Professional Warranty',
-          remainingDays: 456
-        }
-      ];
+        body: JSON.stringify({
+          serial_number: serialNumber.trim()
+        })
+      });
 
-      // Find matching result or create a default one
-      const result = mockResults.find(r => 
-        r.serialNumber.toLowerCase() === serialNumber.toLowerCase()
-      ) || {
-        serialNumber: serialNumber || 'Detected from image',
-        model: 'SNI Laptop',
-        purchaseDate: '2024-06-01',
-        warrantyExpiry: '2027-06-01',
-        status: 'Active',
-        coverage: '3-Year Standard Warranty',
-        remainingDays: 365
-      };
+      const data = await response.json();
 
-      setWarrantyResult(result);
+      if (data.success && data.requires_passcode) {
+        // Warranty found (active or expired) - show passcode field
+        setShowPasscodeField(true);
+        setWarrantyStatus(data.status); // Store the status
+        setError('');
+      } else if (!data.found) {
+        // Serial number not found
+        setError('Serial number not found. Please check and try again.');
+      } else if (!data.requires_passcode) {
+        // Warranty found but not active/expired (inactive)
+        setError(data.message || `Warranty is not active for serial number ${serialNumber}`);
+      }
+    } catch (error) {
+      console.error('Error checking warranty:', error);
+      setError('An error occurred while checking warranty. Please try again.');
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
+  };
+
+  const verifyPasscode = async () => {
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      const response = await fetch(`${API_URL}/api/warranty/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          serial_number: serialNumber.trim(),
+          passcode: passcode
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Format dates
+        const warranty = data.warranty;
+        const formatDate = (dateStr) => {
+          if (!dateStr) return 'N/A';
+          const date = new Date(dateStr);
+          return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        };
+
+        // Calculate remaining days
+        const endDate = new Date(warranty.warranty_end_date);
+        const today = new Date();
+        const remainingDays = Math.max(0, Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)));
+
+        setWarrantyResult({
+          serialNumber: warranty.serial_number,
+          windowsKey: warranty.windows_key,
+          purchaseDate: formatDate(warranty.warranty_start_date),
+          warrantyExpiry: formatDate(warranty.warranty_end_date),
+          status: warranty.warranty_status,
+          nicNumber: warranty.nic_number,
+          remainingDays: remainingDays,
+          coverage: '3-Year Premium Warranty'
+        });
+        setShowPasscodeField(false);
+      } else {
+        setError(data.message || 'Invalid passcode. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error verifying passcode:', error);
+      setError('An error occurred while verifying passcode. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const isValidSerial = serialNumber.length >= 8 || uploadedImage;
@@ -125,6 +171,14 @@ const WarrantyChecker = () => {
             {/* Manual Entry Tab */}
             {activeTab === 'manual' && (
               <div className="space-y-6">
+                {/* Error Message */}
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <p className="text-red-700">{error}</p>
+                  </div>
+                )}
+
+                {/* Serial Number Field */}
                 <div>
                   <label className="block text-black font-semibold mb-3">
                     Serial Number
@@ -133,28 +187,95 @@ const WarrantyChecker = () => {
                     type="text"
                     value={serialNumber}
                     onChange={handleSerialNumberChange}
-                    placeholder="Enter your SNI device serial number (e.g., SNI2024P001)"
-                    className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    disabled={showPasscodeField}
+                    placeholder="Enter your SNI device serial number (e.g., SNI-LP-2024-001)"
+                    className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
                   />
                   <p className="text-gray-600 text-sm mt-2">
                     Your serial number can be found on the bottom of your device or in the system information.
                   </p>
                 </div>
 
-                <button
-                  onClick={checkWarranty}
-                  disabled={!isValidSerial || isLoading}
-                  className="w-full btn-primary text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isLoading ? (
-                    <div className="flex items-center justify-center">
-                      <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
-                      Checking Warranty...
+                {/* Passcode Field - Shows for active or expired warranties */}
+                {showPasscodeField && (
+                  <div className="animate-slide-up">
+                    <div className={`border rounded-xl p-4 mb-4 ${
+                      warrantyStatus === 'Active' 
+                        ? 'bg-green-50 border-green-200' 
+                        : 'bg-orange-50 border-orange-200'
+                    }`}>
+                      <p className={`font-medium ${
+                        warrantyStatus === 'Active' ? 'text-green-700' : 'text-orange-700'
+                      }`}>
+                        ✓ Warranty Found {warrantyStatus === 'Active' ? '(Active)' : '(Expired)'}!
+                      </p>
+                      <p className={`text-sm mt-1 ${
+                        warrantyStatus === 'Active' ? 'text-green-600' : 'text-orange-600'
+                      }`}>
+                        Please enter your passcode to view warranty details.
+                      </p>
                     </div>
-                  ) : (
-                    'Check Warranty Status'
-                  )}
-                </button>
+                    <label className="block text-black font-semibold mb-3">
+                      Passcode
+                    </label>
+                    <input
+                      type="password"
+                      value={passcode}
+                      onChange={(e) => setPasscode(e.target.value)}
+                      placeholder="Enter your passcode"
+                      className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    />
+                    <p className="text-gray-600 text-sm mt-2">
+                      Enter the passcode provided when you purchased your device.
+                    </p>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                {!showPasscodeField ? (
+                  <button
+                    onClick={checkWarranty}
+                    disabled={!isValidSerial || isLoading}
+                    className="w-full btn-primary text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center justify-center">
+                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
+                        Checking Warranty...
+                      </div>
+                    ) : (
+                      'Check Warranty Status'
+                    )}
+                  </button>
+                ) : (
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => {
+                        setShowPasscodeField(false);
+                        setPasscode('');
+                        setError('');
+                        setWarrantyStatus('');
+                      }}
+                      className="flex-1 px-6 py-4 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={verifyPasscode}
+                      disabled={!passcode || isLoading}
+                      className="flex-1 btn-primary text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center justify-center">
+                          <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
+                          Verifying...
+                        </div>
+                      ) : (
+                        'Verify Passcode'
+                      )}
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 
@@ -250,11 +371,11 @@ const WarrantyChecker = () => {
                       <span className="text-black font-medium">{warrantyResult.serialNumber}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Model:</span>
-                      <span className="text-black font-medium">{warrantyResult.model}</span>
+                      <span className="text-gray-600">Windows Key:</span>
+                      <span className="text-black font-medium font-mono text-sm">{warrantyResult.windowsKey}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Purchase Date:</span>
+                      <span className="text-gray-600">Start Date:</span>
                       <span className="text-black font-medium">{warrantyResult.purchaseDate}</span>
                     </div>
                   </div>
@@ -265,15 +386,23 @@ const WarrantyChecker = () => {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Status:</span>
-                      <span className="text-green-600 font-medium">{warrantyResult.status}</span>
+                      <span className={`font-medium ${
+                        warrantyResult.status === 'Active' 
+                          ? 'text-green-600' 
+                          : warrantyResult.status === 'Expired' 
+                          ? 'text-orange-600' 
+                          : 'text-gray-600'
+                      }`}>
+                        {warrantyResult.status}
+                      </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Coverage:</span>
-                      <span className="text-black font-medium">{warrantyResult.coverage}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Expires:</span>
+                      <span className="text-gray-600">End Date:</span>
                       <span className="text-black font-medium">{warrantyResult.warrantyExpiry}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">NIC Number:</span>
+                      <span className="text-black font-medium">{warrantyResult.nicNumber}</span>
                     </div>
                   </div>
                 </div>
