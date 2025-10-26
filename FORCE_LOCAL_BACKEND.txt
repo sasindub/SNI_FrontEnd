@@ -1,0 +1,41 @@
+================================
+IMPORTANT: USE LOCAL BACKEND
+================================
+
+The .env.development file has been created to force the frontend to use your LOCAL backend.
+
+STEPS TO FIX THE ISSUE:
+
+1. STOP the frontend (Ctrl+C in terminal)
+
+2. START LOCAL BACKEND first:
+   cd D:\MyWorks\SNI\SNI_BackEnd
+   python app.py
+   
+   Wait for: "All services initialized successfully"
+
+3. START FRONTEND:
+   cd D:\MyWorks\SNI\SNI_FrontEnd
+   npm start
+
+4. VERIFY:
+   - Open http://localhost:3000/admin
+   - Open browser console (F12)
+   - You should see requests going to: http://localhost:5000
+   - NOT https://snibackend-production.up.railway.app
+
+5. LOGIN:
+   Username: Admin
+   Password: Admin123
+
+=================================
+
+If still seeing Railway URLs:
+- Clear browser cache (Ctrl+Shift+Delete)
+- Hard refresh (Ctrl+Shift+R)
+- Try incognito mode
+- Delete node_modules/.cache folder and restart
+
+=================================
+
+

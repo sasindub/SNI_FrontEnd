@@ -25,7 +25,7 @@ const Header = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'glass-dark shadow-2xl shadow-black/50'
+          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200'
           : 'bg-transparent'
       }`}
     >
@@ -34,15 +34,22 @@ const Header = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-2 group"
+            className="flex items-center space-x-3 group"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-sni-cyan to-sni-purple rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="text-white font-bold text-xl">S</span>
+            <div className="w-12 h-12 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <img 
+                src={require('../assets/snl_logo.png')} 
+                alt="SNL Logo" 
+                className="w-full h-full object-contain filter brightness-0 invert"
+                style={{
+                  filter: isScrolled ? 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)' : 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)'
+                }}
+              />
             </div>
-            <div className="flex flex-col">
-              <span className="text-white font-bold text-xl gradient-text">SNI</span>
-              <span className="text-xs text-gray-400 -mt-1">LAPTOPS</span>
-            </div>
+            {/* <div className="flex flex-col">
+              <span className={`font-bold text-xl transition-colors duration-300 ${isScrolled ? 'text-text-primary' : 'text-text-primary'}`}>SNL</span>
+              <span className={`text-xs -mt-1 transition-colors duration-300 ${isScrolled ? 'text-text-secondary' : 'text-text-secondary'}`}>TECHNOLOGY</span>
+            </div> */}
           </Link>
 
           {/* Desktop Navigation */}
@@ -51,13 +58,13 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative text-white font-medium transition-all duration-300 hover:text-sni-cyan group ${
-                  location.pathname === item.path ? 'text-sni-cyan' : ''
-                }`}
+                  className={`relative font-medium transition-all duration-300 hover:text-primary group ${
+                    location.pathname === item.path ? 'text-primary' : isScrolled ? 'text-text-primary' : 'text-text-primary'
+                  }`}
               >
                 {item.name}
                 <span
-                  className={`absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-sni-cyan to-sni-purple transition-all duration-300 ${
+                  className={`absolute -bottom-1 left-0 w-full h-0.5 bg-primary transition-all duration-300 ${
                     location.pathname === item.path
                       ? 'opacity-100'
                       : 'opacity-0 group-hover:opacity-100'
@@ -69,21 +76,21 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link
+            {/* <Link
               to="/"
               className="btn-primary text-sm"
             >
               Shop Now
-            </Link>
+            </Link> */}
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg glass hover:bg-white/20 transition-all duration-300"
+            className="md:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300"
           >
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-text-primary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -119,8 +126,8 @@ const Header = () => {
                 key={item.name}
                 to={item.path}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`block text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:bg-white/10 ${
-                  location.pathname === item.path ? 'bg-white/20 text-sni-cyan' : ''
+                className={`block text-text-primary font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:bg-gray-100 ${
+                  location.pathname === item.path ? 'bg-gray-100 text-primary' : ''
                 }`}
               >
                 {item.name}
