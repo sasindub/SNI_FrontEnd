@@ -92,10 +92,10 @@ const WarrantyChecker = () => {
           return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
         };
 
-        // Calculate remaining days
+        // Calculate remaining days (positive = days until expiry, negative = days since expired)
         const endDate = new Date(warranty.warranty_end_date);
         const today = new Date();
-        const remainingDays = Math.max(0, Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)));
+        const remainingDays = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
 
         setWarrantyResult({
           serialNumber: warranty.serial_number,
@@ -400,6 +400,19 @@ const WarrantyChecker = () => {
                       <span className="text-gray-600">End Date:</span>
                       <span className="text-black font-medium">{warrantyResult.warrantyExpiry}</span>
                     </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">
+                        {warrantyResult.remainingDays >= 0 ? 'Days Until Expiry:' : 'Days Since Expired:'}
+                      </span>
+                      <span className={`font-medium ${
+                        warrantyResult.remainingDays >= 0 ? 'text-green-600' : 'text-orange-600'
+                      }`}>
+                        {warrantyResult.remainingDays >= 0 
+                          ? `${warrantyResult.remainingDays} days` 
+                          : `${Math.abs(warrantyResult.remainingDays)} days ago`
+                        }
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -492,8 +505,15 @@ const WarrantyChecker = () => {
                 </svg>
               </div>
               <h3 className="text-black font-semibold mb-2">Contact Support</h3>
+              <p className="text-gray-600 text-sm mb-1">
+                <a href="tel:+94112345678" className="hover:text-primary transition-colors">
+                  +94 11 234 5678
+                </a>
+              </p>
               <p className="text-gray-600 text-sm">
-                Get help from our expert support team
+                <a href="mailto:info@sni.lk" className="hover:text-primary transition-colors">
+                  info@sni.lk
+                </a>
               </p>
             </div>
 
