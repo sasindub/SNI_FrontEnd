@@ -42,7 +42,7 @@ const Header = () => {
                 alt="SNL Logo" 
                 className="w-full h-full object-contain filter brightness-0 invert"
                 style={{
-                  filter: isScrolled ? 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)' : 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)'
+                  filter: isScrolled ? 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)' : 'brightness(0) invert(100%)'
                 }}
               />
             </div>
@@ -59,7 +59,7 @@ const Header = () => {
                 key={item.name}
                 to={item.path}
                   className={`relative font-medium transition-all duration-300 hover:text-primary group ${
-                    location.pathname === item.path ? 'text-primary' : isScrolled ? 'text-text-primary' : 'text-text-primary'
+                    location.pathname === item.path ? 'text-primary' : isScrolled ? 'text-text-primary' : 'text-white'
                   }`}
               >
                 {item.name}
@@ -87,10 +87,14 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300"
+            className={`md:hidden p-2 rounded-lg transition-all duration-300 ${
+              isScrolled ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white/20 hover:bg-white/30'
+            }`}
           >
             <svg
-              className="w-6 h-6 text-text-primary"
+              className={`w-6 h-6 transition-colors duration-300 ${
+                isScrolled ? 'text-text-primary' : 'text-white'
+              }`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

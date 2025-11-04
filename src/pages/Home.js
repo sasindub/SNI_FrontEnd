@@ -21,6 +21,15 @@ const Home = () => {
   const [orderProduct, setOrderProduct] = useState(null);
   const [pdfModal, setPdfModal] = useState({ isOpen: false, pdfUrl: '', title: '' });
   const [currentSlide, setCurrentSlide] = useState(0);
+  
+  // Draggable card states
+  const [draggedCard, setDraggedCard] = useState(null);
+  const [cardPositions, setCardPositions] = useState({
+    processor: { x: 0, y: 0, isDragging: false },
+    memory: { x: 0, y: 0, isDragging: false },
+    display: { x: 0, y: 0, isDragging: false },
+    storage: { x: 0, y: 0, isDragging: false },
+  });
 
   // Filter laptops only based on search and filters
   const filteredProducts = useMemo(() => {
@@ -245,18 +254,64 @@ const Home = () => {
   // Auto-slide carousel
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
+      setCurrentSlide((prev) => (prev + 1) % 2);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % 3);
+    setCurrentSlide((prev) => (prev + 1) % 2);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + 3) % 3);
+    setCurrentSlide((prev) => (prev - 1 + 2) % 2);
   };
+
+  // Draggable card handlers
+  const handleCardMouseDown = (cardName, e) => {
+    setDraggedCard(cardName);
+    setCardPositions(prev => ({
+      ...prev,
+      [cardName]: { ...prev[cardName], isDragging: true }
+    }));
+  };
+
+  const handleCardMouseMove = (e) => {
+    if (draggedCard) {
+      const card = draggedCard;
+      setCardPositions(prev => ({
+        ...prev,
+        [card]: {
+          ...prev[card],
+          x: prev[card].x + e.movementX,
+          y: prev[card].y + e.movementY,
+        }
+      }));
+    }
+  };
+
+  const handleCardMouseUp = () => {
+    if (draggedCard) {
+      const card = draggedCard;
+      // Animate back to original position
+      setCardPositions(prev => ({
+        ...prev,
+        [card]: { x: 0, y: 0, isDragging: false }
+      }));
+      setDraggedCard(null);
+    }
+  };
+
+  useEffect(() => {
+    if (draggedCard) {
+      window.addEventListener('mousemove', handleCardMouseMove);
+      window.addEventListener('mouseup', handleCardMouseUp);
+      return () => {
+        window.removeEventListener('mousemove', handleCardMouseMove);
+        window.removeEventListener('mouseup', handleCardMouseUp);
+      };
+    }
+  }, [draggedCard]);
 
   // Auto-scroll for features section with smooth looping
   const [isPaused, setIsPaused] = useState(false);
@@ -319,8 +374,19 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Modern Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image with Gradient Overlay */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={require("../assets/hero.jpg")}
+            alt="SNI Hero Background"
+            className="w-full h-full object-cover"
+          />
+          {/* Gradient Overlays - Much stronger white left side, full color right side */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 via-white/35 to-transparent"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
             <div className="text-center lg:text-left">
@@ -364,36 +430,87 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Content - Laptop Showcase */}
-            <div className="relative">
+            {/* Right Content - Floating Specs */}
+            <div className="relative hidden lg:block">
               <div className="relative animate-float">
-                <div className="w-full h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center overflow-hidden">
-                  <img
-                    src={require("../assets/laptop-gaming.jpg")}
-                    alt="SNI Laptop"
-                    className="w-full h-full object-cover rounded-3xl"
-                  />
-                </div>
-
-                {/* Floating Specs */}
-                <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
-                  <div className="text-sm text-gray-600 mb-1">Processor</div>
-                  <div className="text-lg font-semibold text-black">
-                    Intel Core i9
+                {/* Floating Specs - Positioned Higher */}
+                <div 
+                  className={`absolute -top-12 left-8 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.processor.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.processor.isDragging 
+                      ? `translate(${cardPositions.processor.x}px, ${cardPositions.processor.y}px)` 
+                      : `translate(${cardPositions.processor.x}px, ${cardPositions.processor.y}px)`,
+                    transition: cardPositions.processor.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('processor', e)}
+                >
+                  <div className="text-sm text-gray-200 mb-1 pointer-events-none">Processor</div>
+                  <div className="text-xl font-semibold text-white pointer-events-none">
+                    Intel Core i7-13620H
                   </div>
                 </div>
 
-                <div className="absolute -top-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
-                  <div className="text-sm text-gray-600 mb-1">Memory</div>
-                  <div className="text-lg font-semibold text-black">
-                    32GB RAM
+                <div 
+                  className={`absolute top-8 right-4 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.memory.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:-rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.memory.isDragging 
+                      ? `translate(${cardPositions.memory.x}px, ${cardPositions.memory.y}px)` 
+                      : `translate(${cardPositions.memory.x}px, ${cardPositions.memory.y}px)`,
+                    transition: cardPositions.memory.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('memory', e)}
+                >
+                  <div className="text-sm text-gray-200 mb-1 pointer-events-none">Memory</div>
+                  <div className="text-xl font-semibold text-white pointer-events-none">
+                    16GB RAM
                   </div>
                 </div>
 
-                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
-                  <div className="text-sm text-gray-600 mb-1">Graphics</div>
-                  <div className="text-lg font-semibold text-black">
-                    RTX 4080
+                <div 
+                  className={`absolute top-28 left-1/2 bg-white/98 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-gray-200 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.display.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.display.isDragging 
+                      ? `translate(calc(-50% + ${cardPositions.display.x}px), ${cardPositions.display.y}px)` 
+                      : `translate(calc(-50% + ${cardPositions.display.x}px), ${cardPositions.display.y}px)`,
+                    transition: cardPositions.display.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('display', e)}
+                >
+                  <div className="text-sm text-gray-600 mb-1 pointer-events-none">Display</div>
+                  <div className="text-xl font-semibold text-black pointer-events-none">
+                    15.6" FHD
+                  </div>
+                </div>
+
+                <div 
+                  className={`absolute top-64 right-12 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.storage.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:-rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.storage.isDragging 
+                      ? `translate(${cardPositions.storage.x}px, ${cardPositions.storage.y}px)` 
+                      : `translate(${cardPositions.storage.x}px, ${cardPositions.storage.y}px)`,
+                    transition: cardPositions.storage.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('storage', e)}
+                >
+                  <div className="text-sm text-gray-200 mb-1 pointer-events-none">Storage</div>
+                  <div className="text-xl font-semibold text-white pointer-events-none">
+                    512GB SSD
                   </div>
                 </div>
               </div>
