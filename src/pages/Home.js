@@ -433,9 +433,9 @@ const Home = () => {
             {/* Right Content - Floating Specs */}
             <div className="relative hidden lg:block">
               <div className="relative animate-float">
-                {/* Floating Specs - Positioned Higher */}
+                {/* Floating Specs - Much Higher Position */}
                 <div 
-                  className={`absolute -top-12 left-8 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                  className={`absolute -top-32 left-8 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
                     cardPositions.processor.isDragging 
                       ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
                       : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
@@ -455,7 +455,7 @@ const Home = () => {
                 </div>
 
                 <div 
-                  className={`absolute top-8 right-4 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                  className={`absolute -top-16 right-4 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
                     cardPositions.memory.isDragging 
                       ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
                       : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:-rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
@@ -475,7 +475,7 @@ const Home = () => {
                 </div>
 
                 <div 
-                  className={`absolute top-28 left-1/2 bg-white/98 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-gray-200 cursor-grab active:cursor-grabbing select-none ${
+                  className={`absolute top-4 left-1/2 bg-white/98 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-gray-200 cursor-grab active:cursor-grabbing select-none ${
                     cardPositions.display.isDragging 
                       ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
                       : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
@@ -495,7 +495,7 @@ const Home = () => {
                 </div>
 
                 <div 
-                  className={`absolute top-64 right-12 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                  className={`absolute top-40 right-12 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
                     cardPositions.storage.isDragging 
                       ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
                       : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:-rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
