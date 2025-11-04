@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Sparkles, Zap, Star } from 'lucide-react';
+import E18_1 from '../assets/laptops/E18/Copy of XG8A2450.jpg';
+import E180i7_1 from '../assets/laptops/E180i7/Copy of XG8A2467.jpg';
 
 const CarouselHeader = ({ onCategorySelect }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -7,28 +9,22 @@ const CarouselHeader = ({ onCategorySelect }) => {
   
   const categories = [
     {
-      id: 'laptops',
-      name: 'Laptops',
-      image: require('../assets/laptop-gaming.jpg'),
-      description: 'Powerful laptops for work and play',
-      features: ['Gaming Performance', 'Professional Work', 'Portable Design'],
-      color: 'from-blue-500 to-purple-600'
+      id: 1,
+      name: 'SNL CoreBook E18',
+      model: 'TK-E18',
+      image: E18_1,
+      description: 'Professional laptop with Intel Core i7-13620H',
+      features: ['Intel Core i7', 'Windows 11 Pro', '16GB RAM / 512GB SSD'],
+      color: 'from-gray-400 to-gray-600'
     },
     {
-      id: 'all-in-one',
-      name: 'All-in-One',
-      image: require('../assets/products/AllinOne.png'),
-      description: 'Sleek desktop solutions with integrated displays',
-      features: ['Space Saving', 'Integrated Display', 'Modern Design'],
-      color: 'from-red-500 to-pink-600'
-    },
-    {
-      id: 'tablets',
-      name: 'Tablet PC',
-      image: require('../assets/products/tabletPc.jpg'),
-      description: 'Versatile computing with touch interface',
-      features: ['Touch Interface', 'Portable', 'Versatile'],
-      color: 'from-green-500 to-teal-600'
+      id: 2,
+      name: 'SNL CoreBook E180i7',
+      model: 'TK-E180i7',
+      image: E180i7_1,
+      description: 'Professional laptop with Intel Core i7-13620H',
+      features: ['Intel Core i7', 'Windows 11 Pro', '16GB RAM / 512GB SSD'],
+      color: 'from-black to-gray-800'
     }
   ];
 
@@ -146,12 +142,12 @@ const CarouselHeader = ({ onCategorySelect }) => {
 
                 {/* CTA Button */}
                 <button
-                  onClick={() => handleCategoryClick(category.id)}
+                  onClick={() => handleCategoryClick('laptops')}
                   className="group relative px-12 py-4 bg-white text-gray-900 font-semibold text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 animate-slide-up"
                   style={{animationDelay: '0.9s'}}
                 >
                   <span className="relative z-10 flex items-center">
-                    Explore {category.name}
+                    Explore Laptops
                     <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -204,7 +200,7 @@ const CarouselHeader = ({ onCategorySelect }) => {
                 : 'bg-black/20 text-white hover:bg-black/40 border-white/30'
             }`}
           >
-            {category.name}
+            {category.model}
           </button>
         ))}
       </div>

@@ -69,14 +69,19 @@ const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
 
       {/* Content */}
       <div className="p-6">
-        {/* Title and Price */}
+        {/* Title */}
         <div className="mb-4">
           <h3 className="text-text-primary font-bold text-lg mb-2 group-hover:text-primary transition-colors duration-300">
             {laptop.name}
           </h3>
+          {laptop.model && (
+            <p className="text-text-secondary text-sm mb-2">
+              Model: {laptop.model}
+            </p>
+          )}
           <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-primary">
-              ${laptop.price.toLocaleString()}
+            <span className="text-green-600 font-semibold text-sm">
+              In Stock
             </span>
             <span className="text-text-secondary text-sm">
               {laptop.reviews} reviews
@@ -86,22 +91,30 @@ const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
 
         {/* Specs */}
         <div className="space-y-2 mb-4">
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">CPU:</span>
-            <span className="text-text-primary">{laptop.specs.cpu}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">GPU:</span>
-            <span className="text-text-primary">{laptop.specs.gpu}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">RAM:</span>
-            <span className="text-text-primary">{laptop.specs.ram}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">Storage:</span>
-            <span className="text-text-primary">{laptop.specs.storage}</span>
-          </div>
+          {laptop.specs.platform && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">CPU:</span>
+              <span className="text-text-primary text-xs">{laptop.specs.platform}</span>
+            </div>
+          )}
+          {laptop.specs.display && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">Display:</span>
+              <span className="text-text-primary text-xs">{laptop.specs.display}</span>
+            </div>
+          )}
+          {laptop.specs.ram && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">RAM:</span>
+              <span className="text-text-primary">{laptop.specs.ram}</span>
+            </div>
+          )}
+          {laptop.specs.storage && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">Storage:</span>
+              <span className="text-text-primary">{laptop.specs.storage}</span>
+            </div>
+          )}
         </div>
 
         {/* Features */}

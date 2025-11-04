@@ -1,117 +1,77 @@
+// Import E18 images (Gray)
+import E18_1 from '../assets/laptops/E18/Copy of XG8A2450.jpg';
+import E18_2 from '../assets/laptops/E18/Copy of XG8A2453.jpg';
+import E18_3 from '../assets/laptops/E18/Copy of XG8A2454.jpg';
+import E18_4 from '../assets/laptops/E18/Copy of XG8A2456.jpg';
+import E18_5 from '../assets/laptops/E18/Copy of XG8A2459.jpg';
+import E18_6 from '../assets/laptops/E18/Copy of XG8A2479.jpg';
+import E18_7 from '../assets/laptops/E18/Copy of XG8A2481.jpg';
+
+// Import E180i7 images (Black)
+import E180i7_1 from '../assets/laptops/E180i7/Copy of XG8A2467.jpg';
+import E180i7_2 from '../assets/laptops/E180i7/Copy of XG8A2469.jpg';
+import E180i7_3 from '../assets/laptops/E180i7/Copy of XG8A2470.jpg';
+import E180i7_4 from '../assets/laptops/E180i7/Copy of XG8A2472.jpg';
+import E180i7_5 from '../assets/laptops/E180i7/Copy of XG8A2473.jpg';
+import E180i7_6 from '../assets/laptops/E180i7/Copy of XG8A2474.jpg';
+import E180i7_7 from '../assets/laptops/E180i7/Copy of XG8A2483.jpg';
+
 export const laptops = [
   {
     id: 1,
-    name: "SNI Phantom X1",
-    category: "Gaming",
-    deviceType: "laptop",
-    price: 2499,
-    image: require("../assets/laptop-gaming.jpg"),
-    specs: {
-      cpu: "Intel Core i9-13900H",
-      gpu: "RTX 4080",
-      ram: "32GB DDR5",
-      storage: "1TB NVMe SSD",
-      display: "17.3\" 4K 144Hz",
-      battery: "90Wh"
-    },
-    features: ["RGB Backlit Keyboard", "Advanced Cooling", "Premium Build"],
-    rating: 4.9,
-    reviews: 127
-  },
-  {
-    id: 2,
-    name: "SNI ProBook 15",
+    name: "SNL CoreBook E18",
+    model: "TK-E18",
     category: "Professional",
     deviceType: "laptop",
-    price: 1899,
-    image: require("../assets/laptop-business.jpg"),
+    image: E18_1,
+    images: [E18_1, E18_2, E18_3, E18_4, E18_5, E18_6, E18_7],
     specs: {
-      cpu: "Intel Core i7-13700H",
-      gpu: "RTX 4060",
-      ram: "16GB DDR5",
-      storage: "512GB NVMe SSD",
-      display: "15.6\" 2K 120Hz",
-      battery: "70Wh"
+      brand: "SNL",
+      platform: "Intel Core I7-13620H",
+      display: "15.6\" 1920*1080",
+      ram: "16GB RAM",
+      storage: "512GB SSD",
+      os: "Windows 11 Pro",
+      io: "2*USB 3.2 Gen 1, 1x HDMI, 1x RJ45, 1x Earphone jack, 1x Micro SD slot",
+      wireless: "Wireless 802.11 a/f/g/n/ac + Bluetooth",
+      power: "PD 65W fast charger",
+      dimension: "357.5*229.5*19.5mm",
+      color: "Gray",
+      weight: "1.65kg",
+      gpu: "GPU INTEGRATED",
+      battery: "3Cell 5000mAH 11.4v"
     },
-    features: ["Business Grade Security", "All-Day Battery", "Sleek Design"],
-    rating: 4.7,
-    reviews: 89
-  },
-  {
-    id: 3,
-    name: "SNI Velocity V2",
-    category: "Gaming",
-    deviceType: "laptop",
-    price: 3299,
-    image: require("../assets/laptop-gaming.jpg"),
-    specs: {
-      cpu: "AMD Ryzen 9 7940HX",
-      gpu: "RTX 4090",
-      ram: "64GB DDR5",
-      storage: "2TB NVMe SSD",
-      display: "18\" 4K 165Hz",
-      battery: "99Wh"
-    },
-    features: ["Liquid Cooling", "Mechanical Keyboard", "Premium Audio"],
-    rating: 4.9,
+    features: ["Intel Core i7-13620H", "Windows 11 Pro", "16GB RAM / 512GB SSD"],
+    rating: 4.8,
     reviews: 156
   },
   {
-    id: 4,
-    name: "SNI WorkStation Pro",
+    id: 2,
+    name: "SNL CoreBook E180i7",
+    model: "TK-E180i7",
     category: "Professional",
     deviceType: "laptop",
-    price: 2799,
-    image: require("../assets/laptop-workstation.jpg"),
+    image: E180i7_1,
+    images: [E180i7_1, E180i7_2, E180i7_3, E180i7_4, E180i7_5, E180i7_6, E180i7_7],
     specs: {
-      cpu: "Intel Core i9-13900HX",
-      gpu: "RTX 4070",
-      ram: "32GB DDR5",
-      storage: "1TB NVMe SSD",
-      display: "16\" 3K 120Hz",
-      battery: "85Wh"
+      brand: "SNL",
+      platform: "Intel Core I7-13620H",
+      display: "15.6\" 1920*1080",
+      ram: "16GB RAM",
+      storage: "512GB SSD",
+      os: "Windows 11 Pro",
+      io: "3*USB 3.2 Gen 1, 1x HDMI, 1x RJ45, 1*TYPE C 3.2 Gen 1, 1x Earphone jack, 1x Micro SD slot",
+      wireless: "Wireless 802.11 a/f/g/n/ac + Bluetooth",
+      power: "PD 65W fast charger",
+      dimension: "357.5*229.5*19.5mm",
+      color: "Black",
+      weight: "1.65kg",
+      gpu: "GPU INTEGRATED",
+      battery: "3Cell 5000mAH 11.4v"
     },
-    features: ["ISV Certified", "Enterprise Support", "Durable Build"],
+    features: ["Intel Core i7-13620H", "Windows 11 Pro", "16GB RAM / 512GB SSD"],
     rating: 4.8,
-    reviews: 73
-  },
-  {
-    id: 5,
-    name: "SNI Stream 14",
-    category: "Content Creation",
-    deviceType: "laptop",
-    price: 1599,
-    image: require("../assets/laptop-ultrabook.jpg"),
-    specs: {
-      cpu: "AMD Ryzen 7 7735HS",
-      gpu: "RTX 4050",
-      ram: "16GB DDR5",
-      storage: "512GB NVMe SSD",
-      display: "14\" 2.8K 90Hz",
-      battery: "65Wh"
-    },
-    features: ["Color Accurate Display", "Lightweight", "Creator Tools"],
-    rating: 4.6,
-    reviews: 94
-  },
-  {
-    id: 6,
-    name: "SNI Elite X1",
-    category: "Gaming",
-    deviceType: "laptop",
-    price: 1999,
-    image: require("../assets/laptop-gaming.jpg"),
-    specs: {
-      cpu: "Intel Core i7-13650HX",
-      gpu: "RTX 4070",
-      ram: "16GB DDR5",
-      storage: "1TB NVMe SSD",
-      display: "15.6\" 2K 165Hz",
-      battery: "80Wh"
-    },
-    features: ["High Refresh Rate", "Advanced RGB", "Optimized Gaming"],
-    rating: 4.7,
-    reviews: 112
+    reviews: 142
   }
 ];
 
@@ -121,7 +81,6 @@ export const pcs = [
     name: "SNI Tower Pro",
     category: "Gaming",
     deviceType: "pc",
-    price: 3299,
     image: require("../assets/laptop-workstation.jpg"),
     specs: {
       cpu: "Intel Core i9-13900K",
@@ -140,7 +99,6 @@ export const pcs = [
     name: "SNI Compact Mini",
     category: "Professional",
     deviceType: "pc",
-    price: 1899,
     image: require("../assets/laptop-business.jpg"),
     specs: {
       cpu: "Intel Core i7-13700",
@@ -159,7 +117,6 @@ export const pcs = [
     name: "SNI Creator Station",
     category: "Content Creation",
     deviceType: "pc",
-    price: 4599,
     image: require("../assets/laptop-workstation.jpg"),
     specs: {
       cpu: "AMD Ryzen 9 7950X",
@@ -181,7 +138,6 @@ export const ipods = [
     name: "SNI Pod Pro",
     category: "Premium",
     deviceType: "ipod",
-    price: 399,
     image: require("../assets/laptop-ultrabook.jpg"),
     specs: {
       storage: "256GB",
@@ -201,7 +157,6 @@ export const ipods = [
     name: "SNI Pod Air",
     category: "Portable",
     deviceType: "ipod",
-    price: 299,
     image: require("../assets/laptop-ultrabook.jpg"),
     specs: {
       storage: "128GB",
@@ -221,7 +176,6 @@ export const ipods = [
     name: "SNI Pod Classic",
     category: "Classic",
     deviceType: "ipod",
-    price: 199,
     image: require("../assets/laptop-ultrabook.jpg"),
     specs: {
       storage: "64GB",
@@ -244,7 +198,6 @@ export const accessories = [
     name: "SNI Gaming Mouse Pro",
     category: "Gaming",
     deviceType: "accessory",
-    price: 89,
     image: require("../assets/products/Accessories.jpg"),
     specs: {
       sensor: "Optical 16000 DPI",
@@ -262,7 +215,6 @@ export const accessories = [
     name: "SNI Mechanical Keyboard",
     category: "Professional",
     deviceType: "accessory",
-    price: 149,
     image: require("../assets/products/Accessories.jpg"),
     specs: {
       switches: "Cherry MX Blue",
@@ -283,7 +235,6 @@ export const allInOne = [
     name: "SNI All-in-One Pro",
     category: "Professional",
     deviceType: "all-in-one",
-    price: 2199,
     image: require("../assets/products/AllinOne.png"),
     specs: {
       cpu: "Intel Core i7-13700",
@@ -305,7 +256,6 @@ export const kidsTablets = [
     name: "SNI KidsPad",
     category: "Educational",
     deviceType: "kids-tablet",
-    price: 299,
     image: require("../assets/products/kidsTablet.png"),
     specs: {
       display: "10.1\" HD",
@@ -326,7 +276,6 @@ export const miniPcs = [
     name: "SNI Mini Station",
     category: "Professional",
     deviceType: "mini-pc",
-    price: 899,
     image: require("../assets/products/miniPc.jpg"),
     specs: {
       cpu: "Intel Core i5-12400",
@@ -348,7 +297,6 @@ export const tabletPcs = [
     name: "SNI Tablet Pro",
     category: "Professional",
     deviceType: "tablet-pc",
-    price: 1299,
     image: require("../assets/products/tabletPc.jpg"),
     specs: {
       display: "13.3\" 2K Touch",

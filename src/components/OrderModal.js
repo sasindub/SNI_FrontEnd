@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiFetch } from '../config/api';
+import ImageCarousel from './ImageCarousel';
 
 const OrderModal = ({ isOpen, onClose, product }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -28,25 +29,18 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   ];
 
   const ramOptions = [
-    { value: '8GB', price: 0 },
-    { value: '16GB', price: 200 },
-    { value: '32GB', price: 500 },
-    { value: '64GB', price: 1000 }
+    { value: '8GB' },
+    { value: '16GB' },
+    { value: '32GB' },
+    { value: '64GB' }
   ];
 
   const storageOptions = [
-    { value: '256GB', price: 0 },
-    { value: '512GB', price: 150 },
-    { value: '1TB', price: 300 },
-    { value: '2TB', price: 600 }
+    { value: '256GB' },
+    { value: '512GB' },
+    { value: '1TB' },
+    { value: '2TB' }
   ];
-
-  const calculatePrice = () => {
-    const basePrice = product.price;
-    const ramPrice = ramOptions.find(r => r.value === selectedRam)?.price || 0;
-    const storagePrice = storageOptions.find(s => s.value === selectedStorage)?.price || 0;
-    return basePrice + ramPrice + storagePrice;
-  };
 
   const handlePersonalDetailsChange = (field, value) => {
     setPersonalDetails(prev => ({ ...prev, [field]: value }));
@@ -102,11 +96,10 @@ const OrderModal = ({ isOpen, onClose, product }) => {
       product: {
         id: product.id,
         name: product.name,
-        basePrice: product.price,
-        selectedColor,
+        model: product.model || '',
+        selectedColor: product.specs?.color || selectedColor,
         selectedRam,
-        selectedStorage,
-        finalPrice: calculatePrice()
+        selectedStorage
       },
       customer: personalDetails,
       orderDate: new Date().toISOString()
@@ -172,25 +165,19 @@ const OrderModal = ({ isOpen, onClose, product }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Product Image */}
+        {/* Product Image - Now with Carousel */}
         <div className="space-y-6">
           <div className="relative">
             <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
-              {colorOptions.map((color) => (
-                <img
-                  key={color.key}
-                  src={color.image}
-                  alt={`${product.name} - ${color.name}`}
-                  className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
-                    selectedColor === color.key ? 'opacity-100' : 'opacity-0'
-                  }`}
-                />
-              ))}
+              <ImageCarousel 
+                images={product.images || [product.image]} 
+                productName={product.name}
+              />
             </div>
           </div>
 
-          {/* Color Selection */}
-          <div>
+          {/* Color Selection - Hidden for now */}
+          <div style={{ display: 'none' }}>
             <h3 className="text-lg font-medium text-black mb-4">Choose Color</h3>
             <div className="flex gap-3">
               {colorOptions.map((color) => (
@@ -213,13 +200,8 @@ const OrderModal = ({ isOpen, onClose, product }) => {
             </div>
           </div>
 
-          {/* Price Display */}
+          {/* Continue Button - No Price */}
           <div className="bg-gray-50 rounded-2xl p-6">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-lg font-medium text-black">Total Price</span>
-              <span className="text-3xl font-light text-black">${calculatePrice()}</span>
-            </div>
-            <p className="text-sm text-gray-600 mb-4">Including selected upgrades</p>
             <button
               onClick={() => setCurrentStep(2)}
               className="w-full py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-lg font-medium"
@@ -246,7 +228,6 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 >
                   <div className="flex justify-between items-center">
                     <span className="font-medium">{ram.value} RAM</span>
-                    {ram.price > 0 && <span className="text-gray-600">+${ram.price}</span>}
                   </div>
                 </button>
               ))}
@@ -268,7 +249,6 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 >
                   <div className="flex justify-between items-center">
                     <span className="font-medium">{storage.value} SSD</span>
-                    {storage.price > 0 && <span className="text-gray-600">+${storage.price}</span>}
                   </div>
                 </button>
               ))}
@@ -456,16 +436,10 @@ const OrderModal = ({ isOpen, onClose, product }) => {
             <div className="bg-gray-50 rounded-2xl p-6">
               <h3 className="text-xl font-medium text-black mb-4">Your Laptop</h3>
               <div className="relative aspect-video bg-white rounded-xl overflow-hidden border">
-                <img
-                  src={colorOptions.find(c => c.key === selectedColor)?.image}
-                  alt={`${product.name} - ${colorOptions.find(c => c.key === selectedColor)?.name}`}
-                  className="w-full h-full object-contain"
+                <ImageCarousel 
+                  images={product.images || [product.image]} 
+                  productName={product.name}
                 />
-                <div className="absolute bottom-4 left-4">
-                  <span className="inline-block bg-white/90 backdrop-blur-sm text-black text-sm px-3 py-1 rounded-full shadow">
-                    {colorOptions.find(c => c.key === selectedColor)?.name}
-                  </span>
-                </div>
               </div>
             </div>
           </div>
@@ -481,10 +455,18 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                     <span className="text-gray-600">Product</span>
                     <span className="font-medium text-black">{product.name}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Color</span>
-                    <span className="font-medium text-black">{colorOptions.find(c => c.key === selectedColor)?.name}</span>
-                  </div>
+                  {product.model && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Model</span>
+                      <span className="font-medium text-black">{product.model}</span>
+                    </div>
+                  )}
+                  {product.specs?.color && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Color</span>
+                      <span className="font-medium text-black">{product.specs.color}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between">
@@ -495,12 +477,6 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                     <span className="text-gray-600">Storage</span>
                     <span className="font-medium text-black">{selectedStorage}</span>
                   </div>
-                </div>
-              </div>
-              <div className="border-t pt-4 mt-4">
-                <div className="flex justify-between text-xl font-semibold">
-                  <span className="text-black">Total Price</span>
-                  <span className="text-blue-600">${calculatePrice().toLocaleString()}</span>
                 </div>
               </div>
             </div>
