@@ -159,7 +159,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   const renderStep1 = () => (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-light text-black">Customize Your Order</h2>
+        <h2 className="text-3xl font-light text-black">{product.name}</h2>
         <button
           onClick={handleClose}
           className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-300"
@@ -172,8 +172,8 @@ const OrderModal = ({ isOpen, onClose, product }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Product Image with Carousel */}
-        <div className="space-y-6">
-          <div className="relative">
+        <div className="flex flex-col space-y-6">
+          <div className="relative flex-1">
             <ImageCarousel 
               images={product.images || [product.image]} 
               productName={product.name}
@@ -206,17 +206,13 @@ const OrderModal = ({ isOpen, onClose, product }) => {
             </div>
           </div>
 
-          {/* Action Button - No Price */}
-          <div className="bg-gray-50 rounded-2xl p-6">
-            <div className="mb-4 text-center">
-              <p className="text-lg font-medium text-black mb-2">{product.name}</p>
-              <p className="text-sm text-gray-600">Contact us for pricing details</p>
-            </div>
+          {/* Action Button - with proper spacing */}
+          <div className="mt-6">
             <button
               onClick={() => setCurrentStep(2)}
               className="w-full py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-lg font-medium"
             >
-              Continue to Details
+              Place Order
             </button>
           </div>
         </div>

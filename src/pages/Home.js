@@ -5,7 +5,7 @@ import QuickViewModal from "../components/QuickViewModal";
 import PdfModal from "../components/PdfModal";
 import OrderModal from "../components/OrderModal";
 import PdfViewerModal from "../components/PdfViewerModal";
-import { allProducts } from "../data/laptops";
+import { laptops, allProducts } from "../data/laptops";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,9 +22,9 @@ const Home = () => {
   const [pdfModal, setPdfModal] = useState({ isOpen: false, pdfUrl: '', title: '' });
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Filter products based on search and filters
+  // Filter laptops only based on search and filters
   const filteredProducts = useMemo(() => {
-    return allProducts.filter((product) => {
+    return laptops.filter((product) => {
       const matchesSearch =
         searchTerm === "" ||
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -1176,7 +1176,7 @@ const Home = () => {
                 ref={topProductsRef}
                 className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
               >
-                {filteredProducts.slice(0, 6).map((product) => (
+                {filteredProducts.map((product) => (
                   <div
                     key={product.id}
                     className="flex-shrink-0 w-80 snap-center"
