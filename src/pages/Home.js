@@ -475,15 +475,15 @@ const Home = () => {
                 </div>
 
                 <div 
-                  className={`absolute top-4 left-1/2 bg-white/98 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-gray-200 cursor-grab active:cursor-grabbing select-none ${
+                  className={`absolute top-16 left-1/3 bg-white/98 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-gray-200 cursor-grab active:cursor-grabbing select-none ${
                     cardPositions.display.isDragging 
                       ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
                       : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
                   }`}
                   style={{
                     transform: cardPositions.display.isDragging 
-                      ? `translate(calc(-50% + ${cardPositions.display.x}px), ${cardPositions.display.y}px)` 
-                      : `translate(calc(-50% + ${cardPositions.display.x}px), ${cardPositions.display.y}px)`,
+                      ? `translate(${cardPositions.display.x}px, ${cardPositions.display.y}px)` 
+                      : `translate(${cardPositions.display.x}px, ${cardPositions.display.y}px)`,
                     transition: cardPositions.display.isDragging ? 'none' : 'all 0.5s ease-out'
                   }}
                   onMouseDown={(e) => handleCardMouseDown('display', e)}
