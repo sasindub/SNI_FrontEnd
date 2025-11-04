@@ -580,7 +580,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
       <div className="fixed inset-0 bg-black/50 transition-opacity duration-300" onClick={handleClose} />
       
       <div className="relative w-full h-full flex items-center justify-center p-4">
-        <div className="relative bg-white rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="relative bg-white rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide shadow-2xl">
           {currentStep === 1 && renderStep1()}
           {currentStep === 2 && renderStep2()}
           {currentStep === 3 && renderStep3()}

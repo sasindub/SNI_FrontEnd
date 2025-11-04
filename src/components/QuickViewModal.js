@@ -43,7 +43,7 @@ const QuickViewModal = ({ laptop, isOpen, onClose, onOrder }) => {
             </div>
 
             {/* Content Section */}
-            <div className="p-8 lg:p-12 overflow-y-auto max-h-[600px]">
+            <div className="p-8 lg:p-12 overflow-y-auto max-h-[600px] scrollbar-hide">
               {/* Title - No Price */}
               <div className="mb-8">
                 <h1 className="text-4xl lg:text-5xl font-bold text-black mb-4">
