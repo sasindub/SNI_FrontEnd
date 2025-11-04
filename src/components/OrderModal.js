@@ -29,18 +29,25 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   ];
 
   const ramOptions = [
-    { value: '8GB' },
-    { value: '16GB' },
-    { value: '32GB' },
-    { value: '64GB' }
+    { value: '8GB', price: 0 },
+    { value: '16GB', price: 200 },
+    { value: '32GB', price: 500 },
+    { value: '64GB', price: 1000 }
   ];
 
   const storageOptions = [
-    { value: '256GB' },
-    { value: '512GB' },
-    { value: '1TB' },
-    { value: '2TB' }
+    { value: '256GB', price: 0 },
+    { value: '512GB', price: 150 },
+    { value: '1TB', price: 300 },
+    { value: '2TB', price: 600 }
   ];
+
+  const calculatePrice = () => {
+    const basePrice = product.price;
+    const ramPrice = ramOptions.find(r => r.value === selectedRam)?.price || 0;
+    const storagePrice = storageOptions.find(s => s.value === selectedStorage)?.price || 0;
+    return basePrice + ramPrice + storagePrice;
+  };
 
   const handlePersonalDetailsChange = (field, value) => {
     setPersonalDetails(prev => ({ ...prev, [field]: value }));
@@ -200,8 +207,13 @@ const OrderModal = ({ isOpen, onClose, product }) => {
             </div>
           </div>
 
-          {/* Continue Button - No Price */}
+          {/* Price Display */}
           <div className="bg-gray-50 rounded-2xl p-6">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-lg font-medium text-black">Total Price</span>
+              <span className="text-3xl font-light text-black">${calculatePrice()}</span>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">Including selected upgrades</p>
             <button
               onClick={() => setCurrentStep(2)}
               className="w-full py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-lg font-medium"
@@ -228,6 +240,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 >
                   <div className="flex justify-between items-center">
                     <span className="font-medium">{ram.value} RAM</span>
+                    {ram.price > 0 && <span className="text-gray-600">+${ram.price}</span>}
                   </div>
                 </button>
               ))}
@@ -249,6 +262,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 >
                   <div className="flex justify-between items-center">
                     <span className="font-medium">{storage.value} SSD</span>
+                    {storage.price > 0 && <span className="text-gray-600">+${storage.price}</span>}
                   </div>
                 </button>
               ))}
