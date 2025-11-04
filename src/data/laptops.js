@@ -1,120 +1,100 @@
+// SNL CoreBook E18 - Gray
+const e18Images = [
+  require("../assets/images/SNL CoreBook E18/XG8A2450.jpg"),
+  require("../assets/images/SNL CoreBook E18/XG8A2453.jpg"),
+  require("../assets/images/SNL CoreBook E18/XG8A2454.jpg"),
+  require("../assets/images/SNL CoreBook E18/XG8A2456.jpg"),
+  require("../assets/images/SNL CoreBook E18/XG8A2459.jpg"),
+  require("../assets/images/SNL CoreBook E18/XG8A2479.jpg"),
+  require("../assets/images/SNL CoreBook E18/XG8A2481.jpg"),
+];
+
+// SNL CoreBook E180i7 - Black
+const e180i7Images = [
+  require("../assets/images/SNL CoreBook E180i7/XG8A2467.jpg"),
+  require("../assets/images/SNL CoreBook E180i7/XG8A2469.jpg"),
+  require("../assets/images/SNL CoreBook E180i7/XG8A2470.jpg"),
+  require("../assets/images/SNL CoreBook E180i7/XG8A2472.jpg"),
+  require("../assets/images/SNL CoreBook E180i7/XG8A2473.jpg"),
+  require("../assets/images/SNL CoreBook E180i7/XG8A2474.jpg"),
+  require("../assets/images/SNL CoreBook E180i7/XG8A2483.jpg"),
+];
+
 export const laptops = [
   {
     id: 1,
-    name: "SNI Phantom X1",
-    category: "Gaming",
+    name: "SNL CoreBook E18",
+    model: "TK-E18",
+    category: "Professional",
     deviceType: "laptop",
-    price: 2499,
-    image: require("../assets/laptop-gaming.jpg"),
+    price: 0, // Price hidden
+    image: e18Images[0], // Main display image
+    images: e18Images, // All images for carousel
     specs: {
-      cpu: "Intel Core i9-13900H",
-      gpu: "RTX 4080",
-      ram: "32GB DDR5",
-      storage: "1TB NVMe SSD",
-      display: "17.3\" 4K 144Hz",
-      battery: "90Wh"
+      brand: "SNL",
+      platform: "Intel Core i7-13620H",
+      display: "15.6\" 1920*1080",
+      ram: "16GB RAM",
+      storage: "512GB SSD",
+      os: "Windows 11 Pro",
+      io: [
+        "2x USB 3.2 Gen 1",
+        "1x HDMI",
+        "1x RJ45",
+        "1x Earphone jack",
+        "1x Micro SD slot"
+      ],
+      wireless: "802.11 a/f/g/n/ac + Bluetooth",
+      power: "PD 65W fast charger",
+      dimension: "357.5*229.5*19.5mm",
+      color: "Gray",
+      weight: "1.65kg",
+      gpu: "Integrated",
+      battery: "3Cell 5000mAH 11.4v"
     },
-    features: ["RGB Backlit Keyboard", "Advanced Cooling", "Premium Build"],
-    rating: 4.9,
-    reviews: 127
+    features: ["Professional Grade", "Long Battery Life", "Premium Build Quality"],
+    rating: 4.8,
+    reviews: 0
   },
   {
     id: 2,
-    name: "SNI ProBook 15",
+    name: "SNL CoreBook E180i7",
+    model: "TK-E180i7",
     category: "Professional",
     deviceType: "laptop",
-    price: 1899,
-    image: require("../assets/laptop-business.jpg"),
+    price: 0, // Price hidden
+    image: e180i7Images[0], // Main display image
+    images: e180i7Images, // All images for carousel
     specs: {
-      cpu: "Intel Core i7-13700H",
-      gpu: "RTX 4060",
-      ram: "16GB DDR5",
-      storage: "512GB NVMe SSD",
-      display: "15.6\" 2K 120Hz",
-      battery: "70Wh"
+      brand: "SNL",
+      platform: "Intel Core i7-13620H",
+      display: "15.6\" 1920*1080",
+      ram: "16GB RAM",
+      storage: "512GB SSD",
+      os: "Windows 11 Pro",
+      io: [
+        "3x USB 3.2 Gen 1",
+        "1x HDMI",
+        "1x RJ45",
+        "1x TYPE C 3.2 Gen 1",
+        "1x Earphone jack",
+        "1x Micro SD slot"
+      ],
+      wireless: "802.11 a/f/g/n/ac + Bluetooth",
+      power: "PD 65W fast charger",
+      dimension: "357.5*229.5*19.5mm",
+      color: "Black",
+      weight: "1.65kg",
+      gpu: "Integrated",
+      battery: "3Cell 5000mAH 11.4v"
     },
-    features: ["Business Grade Security", "All-Day Battery", "Sleek Design"],
-    rating: 4.7,
-    reviews: 89
-  },
-  {
-    id: 3,
-    name: "SNI Velocity V2",
-    category: "Gaming",
-    deviceType: "laptop",
-    price: 3299,
-    image: require("../assets/laptop-gaming.jpg"),
-    specs: {
-      cpu: "AMD Ryzen 9 7940HX",
-      gpu: "RTX 4090",
-      ram: "64GB DDR5",
-      storage: "2TB NVMe SSD",
-      display: "18\" 4K 165Hz",
-      battery: "99Wh"
-    },
-    features: ["Liquid Cooling", "Mechanical Keyboard", "Premium Audio"],
-    rating: 4.9,
-    reviews: 156
-  },
-  {
-    id: 4,
-    name: "SNI WorkStation Pro",
-    category: "Professional",
-    deviceType: "laptop",
-    price: 2799,
-    image: require("../assets/laptop-workstation.jpg"),
-    specs: {
-      cpu: "Intel Core i9-13900HX",
-      gpu: "RTX 4070",
-      ram: "32GB DDR5",
-      storage: "1TB NVMe SSD",
-      display: "16\" 3K 120Hz",
-      battery: "85Wh"
-    },
-    features: ["ISV Certified", "Enterprise Support", "Durable Build"],
+    features: ["Professional Grade", "Enhanced Connectivity", "Premium Build Quality"],
     rating: 4.8,
-    reviews: 73
-  },
-  {
-    id: 5,
-    name: "SNI Stream 14",
-    category: "Content Creation",
-    deviceType: "laptop",
-    price: 1599,
-    image: require("../assets/laptop-ultrabook.jpg"),
-    specs: {
-      cpu: "AMD Ryzen 7 7735HS",
-      gpu: "RTX 4050",
-      ram: "16GB DDR5",
-      storage: "512GB NVMe SSD",
-      display: "14\" 2.8K 90Hz",
-      battery: "65Wh"
-    },
-    features: ["Color Accurate Display", "Lightweight", "Creator Tools"],
-    rating: 4.6,
-    reviews: 94
-  },
-  {
-    id: 6,
-    name: "SNI Elite X1",
-    category: "Gaming",
-    deviceType: "laptop",
-    price: 1999,
-    image: require("../assets/laptop-gaming.jpg"),
-    specs: {
-      cpu: "Intel Core i7-13650HX",
-      gpu: "RTX 4070",
-      ram: "16GB DDR5",
-      storage: "1TB NVMe SSD",
-      display: "15.6\" 2K 165Hz",
-      battery: "80Wh"
-    },
-    features: ["High Refresh Rate", "Advanced RGB", "Optimized Gaming"],
-    rating: 4.7,
-    reviews: 112
+    reviews: 0
   }
 ];
 
+// Keep other product categories unchanged
 export const pcs = [
   {
     id: 7,

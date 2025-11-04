@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiFetch } from '../config/api';
+import ImageCarousel from './ImageCarousel';
 
 const OrderModal = ({ isOpen, onClose, product }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -42,10 +43,8 @@ const OrderModal = ({ isOpen, onClose, product }) => {
   ];
 
   const calculatePrice = () => {
-    const basePrice = product.price;
-    const ramPrice = ramOptions.find(r => r.value === selectedRam)?.price || 0;
-    const storagePrice = storageOptions.find(s => s.value === selectedStorage)?.price || 0;
-    return basePrice + ramPrice + storagePrice;
+    // Price calculation disabled - return 0
+    return 0;
   };
 
   const handlePersonalDetailsChange = (field, value) => {
@@ -172,31 +171,25 @@ const OrderModal = ({ isOpen, onClose, product }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Product Image */}
+        {/* Product Image with Carousel */}
         <div className="space-y-6">
           <div className="relative">
-            <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
-              {colorOptions.map((color) => (
-                <img
-                  key={color.key}
-                  src={color.image}
-                  alt={`${product.name} - ${color.name}`}
-                  className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
-                    selectedColor === color.key ? 'opacity-100' : 'opacity-0'
-                  }`}
-                />
-              ))}
-            </div>
+            <ImageCarousel 
+              images={product.images || [product.image]} 
+              productName={product.name}
+              className="h-96"
+            />
           </div>
 
-          {/* Color Selection */}
-          <div>
+          {/* Color Selection - Hidden as per requirement */}
+          <div className="hidden">
             <h3 className="text-lg font-medium text-black mb-4">Choose Color</h3>
             <div className="flex gap-3">
               {colorOptions.map((color) => (
                 <button
                   key={color.key}
                   onClick={() => setSelectedColor(color.key)}
+                  disabled
                   className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 ${
                     selectedColor === color.key
                       ? 'border-blue-600 bg-blue-50'
@@ -213,13 +206,12 @@ const OrderModal = ({ isOpen, onClose, product }) => {
             </div>
           </div>
 
-          {/* Price Display */}
+          {/* Action Button - No Price */}
           <div className="bg-gray-50 rounded-2xl p-6">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-lg font-medium text-black">Total Price</span>
-              <span className="text-3xl font-light text-black">${calculatePrice()}</span>
+            <div className="mb-4 text-center">
+              <p className="text-lg font-medium text-black mb-2">{product.name}</p>
+              <p className="text-sm text-gray-600">Contact us for pricing details</p>
             </div>
-            <p className="text-sm text-gray-600 mb-4">Including selected upgrades</p>
             <button
               onClick={() => setCurrentStep(2)}
               className="w-full py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-lg font-medium"
@@ -246,7 +238,6 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 >
                   <div className="flex justify-between items-center">
                     <span className="font-medium">{ram.value} RAM</span>
-                    {ram.price > 0 && <span className="text-gray-600">+${ram.price}</span>}
                   </div>
                 </button>
               ))}
@@ -268,7 +259,6 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 >
                   <div className="flex justify-between items-center">
                     <span className="font-medium">{storage.value} SSD</span>
-                    {storage.price > 0 && <span className="text-gray-600">+${storage.price}</span>}
                   </div>
                 </button>
               ))}
@@ -498,9 +488,8 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 </div>
               </div>
               <div className="border-t pt-4 mt-4">
-                <div className="flex justify-between text-xl font-semibold">
-                  <span className="text-black">Total Price</span>
-                  <span className="text-blue-600">${calculatePrice().toLocaleString()}</span>
+                <div className="text-center">
+                  <p className="text-gray-600 text-sm">Contact us for pricing details</p>
                 </div>
               </div>
             </div>
@@ -575,9 +564,9 @@ const OrderModal = ({ isOpen, onClose, product }) => {
         
         <div className="bg-gray-50 rounded-2xl p-6 mb-6">
           <h3 className="font-medium text-black mb-2">Order Details</h3>
-          <p className="text-sm text-gray-600">{product.name} - {colorOptions.find(c => c.key === selectedColor)?.name}</p>
+          <p className="text-sm text-gray-600">{product.name}</p>
           <p className="text-sm text-gray-600">{selectedRam} RAM, {selectedStorage} Storage</p>
-          <p className="text-lg font-medium text-black mt-2">Total: ${calculatePrice()}</p>
+          <p className="text-sm text-gray-500 mt-2">Contact us for pricing details</p>
         </div>
 
         <button
