@@ -76,8 +76,8 @@ const OrderModal = ({ isOpen, onClose, product }) => {
     
     if (!personalDetails.mobile.trim()) {
       errors.mobile = 'Mobile number is required';
-    } else if (!/^[\+]?[1-9][\d]{0,15}$/.test(personalDetails.mobile.replace(/\s/g, ''))) {
-      errors.mobile = 'Please enter a valid mobile number';
+    } else if (!/^\d{10}$/.test(personalDetails.mobile.replace(/\s/g, ''))) {
+      errors.mobile = 'Please enter a valid 10-digit mobile number';
     }
     
     if (!personalDetails.zipCode.trim()) {
@@ -292,6 +292,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                   formErrors.firstName ? 'border-red-500' : 'border-gray-300'
                 }`}
+                placeholder="Enter your first name"
                 required
               />
               {formErrors.firstName && (
@@ -307,6 +308,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                   formErrors.lastName ? 'border-red-500' : 'border-gray-300'
                 }`}
+                placeholder="Enter your last name"
                 required
               />
               {formErrors.lastName && (
@@ -324,6 +326,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 formErrors.address ? 'border-red-500' : 'border-gray-300'
               }`}
               rows="3"
+              placeholder="Street address, apartment, building, etc."
               required
             />
             {formErrors.address && (
@@ -341,6 +344,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                   formErrors.city ? 'border-red-500' : 'border-gray-300'
                 }`}
+                placeholder="Colombo, Kandy, Galle, etc."
                 required
               />
               {formErrors.city && (
@@ -356,6 +360,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                   formErrors.zipCode ? 'border-red-500' : 'border-gray-300'
                 }`}
+                placeholder="e.g., 10400"
                 required
               />
               {formErrors.zipCode && (
@@ -374,6 +379,8 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                   formErrors.mobile ? 'border-red-500' : 'border-gray-300'
                 }`}
+                placeholder="0771234567"
+                maxLength="10"
                 required
               />
               {formErrors.mobile && (
@@ -389,6 +396,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                   formErrors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
+                placeholder="your.email@example.com"
               />
               {formErrors.email && (
                 <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
@@ -443,15 +451,10 @@ const OrderModal = ({ isOpen, onClose, product }) => {
               <h3 className="text-xl font-medium text-black mb-4">Your Laptop</h3>
               <div className="relative aspect-video bg-white rounded-xl overflow-hidden border">
                 <img
-                  src={colorOptions.find(c => c.key === selectedColor)?.image}
-                  alt={`${product.name} - ${colorOptions.find(c => c.key === selectedColor)?.name}`}
+                  src={product.images && product.images.length > 0 ? product.images[0] : colorOptions.find(c => c.key === selectedColor)?.image}
+                  alt={`${product.name}`}
                   className="w-full h-full object-contain"
                 />
-                <div className="absolute bottom-4 left-4">
-                  <span className="inline-block bg-white/90 backdrop-blur-sm text-black text-sm px-3 py-1 rounded-full shadow">
-                    {colorOptions.find(c => c.key === selectedColor)?.name}
-                  </span>
-                </div>
               </div>
             </div>
           </div>
