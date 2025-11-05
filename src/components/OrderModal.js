@@ -173,7 +173,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Product Image with Carousel */}
         <div className="space-y-6">
-          <div className="relative">
+          <div className="relative mb-6">
             <ImageCarousel 
               images={product.images || [product.image]} 
               productName={product.name}

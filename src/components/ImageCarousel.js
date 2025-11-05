@@ -30,9 +30,9 @@ const ImageCarousel = ({ images, productName, className = "" }) => {
   };
 
   return (
-    <div className={`relative ${className}`}>
+    <div className="relative w-full">
       {/* Main Image Display */}
-      <div className="relative w-full h-full bg-gray-100 rounded-2xl overflow-hidden">
+      <div className={`relative w-full bg-gray-100 rounded-2xl overflow-hidden ${className}`}>
         <img
           src={images[currentImageIndex]}
           alt={`${productName} - Image ${currentImageIndex + 1}`}
@@ -68,12 +68,12 @@ const ImageCarousel = ({ images, productName, className = "" }) => {
 
       {/* Thumbnail Navigation - Only show if more than 1 image */}
       {images.length > 1 && (
-        <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           {images.map((image, index) => (
             <button
               key={index}
               onClick={() => goToImage(index)}
-              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+              className={`flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                 index === currentImageIndex
                   ? 'border-blue-600 scale-105'
                   : 'border-gray-300 hover:border-gray-400 opacity-70 hover:opacity-100'
@@ -91,7 +91,7 @@ const ImageCarousel = ({ images, productName, className = "" }) => {
 
       {/* Dot Indicators (Alternative - Hidden by default, can be shown for minimal UI) */}
       {images.length > 1 && images.length <= 10 && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+        <div className="hidden absolute bottom-2 left-1/2 -translate-x-1/2 gap-1.5">
           {images.map((_, index) => (
             <button
               key={index}
