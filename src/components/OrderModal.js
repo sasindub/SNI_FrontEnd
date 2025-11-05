@@ -172,12 +172,12 @@ const OrderModal = ({ isOpen, onClose, product }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Product Image with Carousel */}
-        <div className="flex flex-col space-y-6">
-          <div className="relative flex-1">
+        <div className="space-y-6">
+          <div className="relative">
             <ImageCarousel 
               images={product.images || [product.image]} 
               productName={product.name}
-              className="h-96"
+              className="h-64 md:h-80 lg:h-96"
             />
           </div>
 
@@ -207,7 +207,7 @@ const OrderModal = ({ isOpen, onClose, product }) => {
           </div>
 
           {/* Action Button - with proper spacing */}
-          <div className="mt-6">
+          <div>
             <button
               onClick={() => setCurrentStep(2)}
               className="w-full py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-lg font-medium"
