@@ -5,7 +5,7 @@ const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
 
   return (
     <div
-      className="group bg-white rounded-2xl overflow-hidden card-hover cursor-pointer shadow-lg border border-gray-100"
+      className="group bg-white rounded-2xl overflow-hidden card-hover cursor-pointer shadow-lg border border-gray-100 flex flex-col h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -37,15 +37,6 @@ const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
           </span>
         </div>
 
-        {/* Rating */}
-        <div className="absolute top-4 right-4">
-          <div className="flex items-center space-x-1 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1">
-            <svg className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-            <span className="text-gray-900 text-xs font-medium">{laptop.rating}</span>
-          </div>
-        </div>
 
         {/* Hover Overlay */}
         <div
@@ -68,40 +59,53 @@ const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        {/* Title and Price */}
+      <div className="p-6 flex flex-col flex-1">
+        {/* Title */}
         <div className="mb-4">
           <h3 className="text-text-primary font-bold text-lg mb-2 group-hover:text-primary transition-colors duration-300">
             {laptop.name}
           </h3>
+          {laptop.model && (
+            <p className="text-text-secondary text-sm mb-2">Model: {laptop.model}</p>
+          )}
           <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-primary">
-              ${laptop.price.toLocaleString()}
+            <span className="text-sm text-gray-600">
+              Contact for pricing
             </span>
-            <span className="text-text-secondary text-sm">
-              {laptop.reviews} reviews
-            </span>
+            {laptop.reviews > 0 && (
+              <span className="text-text-secondary text-sm">
+                {laptop.reviews} reviews
+              </span>
+            )}
           </div>
         </div>
 
         {/* Specs */}
-        <div className="space-y-2 mb-4">
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">CPU:</span>
-            <span className="text-text-primary">{laptop.specs.cpu}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">GPU:</span>
-            <span className="text-text-primary">{laptop.specs.gpu}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">RAM:</span>
-            <span className="text-text-primary">{laptop.specs.ram}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">Storage:</span>
-            <span className="text-text-primary">{laptop.specs.storage}</span>
-          </div>
+        <div className="space-y-2 mb-4 flex-1">
+          {laptop.specs.platform && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">Processor:</span>
+              <span className="text-text-primary text-right">{laptop.specs.platform}</span>
+            </div>
+          )}
+          {laptop.specs.display && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">Display:</span>
+              <span className="text-text-primary text-right">{laptop.specs.display}</span>
+            </div>
+          )}
+          {laptop.specs.ram && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">RAM:</span>
+              <span className="text-text-primary text-right">{laptop.specs.ram}</span>
+            </div>
+          )}
+          {laptop.specs.storage && (
+            <div className="flex justify-between text-sm">
+              <span className="text-text-secondary">Storage:</span>
+              <span className="text-text-primary text-right">{laptop.specs.storage}</span>
+            </div>
+          )}
         </div>
 
         {/* Features */}

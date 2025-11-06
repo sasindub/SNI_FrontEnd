@@ -31,40 +31,43 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          {/* Logo */}
+          {/* Logo - Always visible, keep original color */}
           <Link
             to="/"
             className="flex items-center space-x-3 group"
           >
             <div className="w-12 h-12 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <img 
-                src={require('../assets/snl_logo.png')} 
+                src={require('../assets/navLogo.png')} 
                 alt="SNL Logo" 
-                className="w-full h-full object-contain filter brightness-0 invert"
-                style={{
-                  filter: isScrolled ? 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)' : 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)'
-                }}
+                className="w-full h-full object-contain"
               />
             </div>
-            {/* <div className="flex flex-col">
-              <span className={`font-bold text-xl transition-colors duration-300 ${isScrolled ? 'text-text-primary' : 'text-text-primary'}`}>SNL</span>
-              <span className={`text-xs -mt-1 transition-colors duration-300 ${isScrolled ? 'text-text-secondary' : 'text-text-secondary'}`}>TECHNOLOGY</span>
-            </div> */}
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 ml-auto">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
                   className={`relative font-medium transition-all duration-300 hover:text-primary group ${
-                    location.pathname === item.path ? 'text-primary' : isScrolled ? 'text-text-primary' : 'text-text-primary'
+                    location.pathname === item.path 
+                      ? location.pathname === '/' && !isScrolled
+                        ? 'text-gray-200'
+                        : 'text-primary'
+                      : location.pathname === '/' && !isScrolled
+                        ? 'text-white'
+                        : 'text-black'
                   }`}
               >
                 {item.name}
                 <span
-                  className={`absolute -bottom-1 left-0 w-full h-0.5 bg-primary transition-all duration-300 ${
+                  className={`absolute -bottom-1 left-0 w-full h-0.5 transition-all duration-300 ${
+                    location.pathname === '/' && !isScrolled
+                      ? 'bg-gray-200'
+                      : 'bg-primary'
+                  } ${
                     location.pathname === item.path
                       ? 'opacity-100'
                       : 'opacity-0 group-hover:opacity-100'
@@ -90,7 +93,7 @@ const Header = () => {
             className="md:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-300"
           >
             <svg
-              className="w-6 h-6 text-text-primary"
+              className="w-6 h-6 text-black"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

@@ -1,11 +1,12 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import SearchAndFilter from "../components/SearchAndFilter";
 import LaptopCard from "../components/LaptopCard";
 import QuickViewModal from "../components/QuickViewModal";
 import PdfModal from "../components/PdfModal";
 import OrderModal from "../components/OrderModal";
 import PdfViewerModal from "../components/PdfViewerModal";
-import { allProducts } from "../data/laptops";
+import { laptops, allProducts } from "../data/laptops";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,10 +22,19 @@ const Home = () => {
   const [orderProduct, setOrderProduct] = useState(null);
   const [pdfModal, setPdfModal] = useState({ isOpen: false, pdfUrl: '', title: '' });
   const [currentSlide, setCurrentSlide] = useState(0);
+  
+  // Draggable card states
+  const [draggedCard, setDraggedCard] = useState(null);
+  const [cardPositions, setCardPositions] = useState({
+    processor: { x: 0, y: 0, isDragging: false },
+    memory: { x: 0, y: 0, isDragging: false },
+    display: { x: 0, y: 0, isDragging: false },
+    storage: { x: 0, y: 0, isDragging: false },
+  });
 
-  // Filter products based on search and filters
+  // Filter laptops only based on search and filters
   const filteredProducts = useMemo(() => {
-    return allProducts.filter((product) => {
+    return laptops.filter((product) => {
       const matchesSearch =
         searchTerm === "" ||
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -245,18 +255,64 @@ const Home = () => {
   // Auto-slide carousel
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
+      setCurrentSlide((prev) => (prev + 1) % 2);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % 3);
+    setCurrentSlide((prev) => (prev + 1) % 2);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + 3) % 3);
+    setCurrentSlide((prev) => (prev - 1 + 2) % 2);
   };
+
+  // Draggable card handlers
+  const handleCardMouseDown = (cardName, e) => {
+    setDraggedCard(cardName);
+    setCardPositions(prev => ({
+      ...prev,
+      [cardName]: { ...prev[cardName], isDragging: true }
+    }));
+  };
+
+  const handleCardMouseMove = (e) => {
+    if (draggedCard) {
+      const card = draggedCard;
+      setCardPositions(prev => ({
+        ...prev,
+        [card]: {
+          ...prev[card],
+          x: prev[card].x + e.movementX,
+          y: prev[card].y + e.movementY,
+        }
+      }));
+    }
+  };
+
+  const handleCardMouseUp = () => {
+    if (draggedCard) {
+      const card = draggedCard;
+      // Animate back to original position
+      setCardPositions(prev => ({
+        ...prev,
+        [card]: { x: 0, y: 0, isDragging: false }
+      }));
+      setDraggedCard(null);
+    }
+  };
+
+  useEffect(() => {
+    if (draggedCard) {
+      window.addEventListener('mousemove', handleCardMouseMove);
+      window.addEventListener('mouseup', handleCardMouseUp);
+      return () => {
+        window.removeEventListener('mousemove', handleCardMouseMove);
+        window.removeEventListener('mouseup', handleCardMouseUp);
+      };
+    }
+  }, [draggedCard]);
 
   // Auto-scroll for features section with smooth looping
   const [isPaused, setIsPaused] = useState(false);
@@ -319,8 +375,19 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Modern Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image with Gradient Overlay */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={require("../assets/hero.jpg")}
+            alt="SNI Hero Background"
+            className="w-full h-full object-cover"
+          />
+          {/* Gradient Overlays - Much stronger white left side, full color right side */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 via-white/35 to-transparent"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
             <div className="text-center lg:text-left">
@@ -364,36 +431,87 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Content - Laptop Showcase */}
-            <div className="relative">
+            {/* Right Content - Floating Specs */}
+            <div className="relative hidden lg:block">
               <div className="relative animate-float">
-                <div className="w-full h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center overflow-hidden">
-                  <img
-                    src={require("../assets/laptop-gaming.jpg")}
-                    alt="SNI Laptop"
-                    className="w-full h-full object-cover rounded-3xl"
-                  />
-                </div>
-
-                {/* Floating Specs */}
-                <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
-                  <div className="text-sm text-gray-600 mb-1">Processor</div>
-                  <div className="text-lg font-semibold text-black">
-                    Intel Core i9
+                {/* Floating Specs - Much Higher Position */}
+                <div 
+                  className={`absolute -top-32 left-8 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.processor.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.processor.isDragging 
+                      ? `translate(${cardPositions.processor.x}px, ${cardPositions.processor.y}px)` 
+                      : `translate(${cardPositions.processor.x}px, ${cardPositions.processor.y}px)`,
+                    transition: cardPositions.processor.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('processor', e)}
+                >
+                  <div className="text-sm text-gray-200 mb-1 pointer-events-none">Processor</div>
+                  <div className="text-xl font-semibold text-white pointer-events-none">
+                    Intel Core i7-13620H
                   </div>
                 </div>
 
-                <div className="absolute -top-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
-                  <div className="text-sm text-gray-600 mb-1">Memory</div>
-                  <div className="text-lg font-semibold text-black">
-                    32GB RAM
+                <div 
+                  className={`absolute -top-16 right-4 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.memory.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:-rotate-2 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.memory.isDragging 
+                      ? `translate(${cardPositions.memory.x}px, ${cardPositions.memory.y}px)` 
+                      : `translate(${cardPositions.memory.x}px, ${cardPositions.memory.y}px)`,
+                    transition: cardPositions.memory.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('memory', e)}
+                >
+                  <div className="text-sm text-gray-200 mb-1 pointer-events-none">Memory</div>
+                  <div className="text-xl font-semibold text-white pointer-events-none">
+                    16GB RAM
                   </div>
                 </div>
 
-                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
-                  <div className="text-sm text-gray-600 mb-1">Graphics</div>
-                  <div className="text-lg font-semibold text-black">
-                    RTX 4080
+                <div 
+                  className={`absolute top-16 left-1/3 bg-white/98 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-gray-200 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.display.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.display.isDragging 
+                      ? `translate(${cardPositions.display.x}px, ${cardPositions.display.y}px)` 
+                      : `translate(${cardPositions.display.x}px, ${cardPositions.display.y}px)`,
+                    transition: cardPositions.display.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('display', e)}
+                >
+                  <div className="text-sm text-gray-600 mb-1 pointer-events-none">Display</div>
+                  <div className="text-xl font-semibold text-black pointer-events-none">
+                    15.6" FHD
+                  </div>
+                </div>
+
+                <div 
+                  className={`absolute top-40 right-12 bg-black/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 cursor-grab active:cursor-grabbing select-none ${
+                    cardPositions.storage.isDragging 
+                      ? 'scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50' 
+                      : 'transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-4 hover:-rotate-1 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]'
+                  }`}
+                  style={{
+                    transform: cardPositions.storage.isDragging 
+                      ? `translate(${cardPositions.storage.x}px, ${cardPositions.storage.y}px)` 
+                      : `translate(${cardPositions.storage.x}px, ${cardPositions.storage.y}px)`,
+                    transition: cardPositions.storage.isDragging ? 'none' : 'all 0.5s ease-out'
+                  }}
+                  onMouseDown={(e) => handleCardMouseDown('storage', e)}
+                >
+                  <div className="text-sm text-gray-200 mb-1 pointer-events-none">Storage</div>
+                  <div className="text-xl font-semibold text-white pointer-events-none">
+                    512GB SSD
                   </div>
                 </div>
               </div>
@@ -420,142 +538,93 @@ const Home = () => {
               className="flex transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              {/* Laptop Slide */}
+              {/* SNL CoreBook E18 Slide */}
               <div className="w-full flex-shrink-0">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-12">
                   <div>
                     <h3 className="text-4xl font-light text-black mb-4">
-                      SNI Phantom X1
+                      SNL CoreBook E18
                     </h3>
-                    <p className="text-xl text-gray-600 mb-6">Gaming Beast</p>
+                    <p className="text-xl text-gray-600 mb-6">Model: TK-E18</p>
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
                         <span className="text-gray-700">
-                          Intel Core i9 12th Gen
+                          Intel Core i7-13620H
                         </span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700">NVIDIA RTX 4080</span>
+                        <span className="text-gray-700">15.6" 1920*1080 Display</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700">32GB DDR5 RAM</span>
+                        <span className="text-gray-700">16GB RAM / 512GB SSD</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700">1TB NVMe SSD</span>
+                        <span className="text-gray-700">Windows 11 Pro</span>
                       </div>
                     </div>
-                    <div className="text-3xl font-light text-black mb-6">
-                      From $2,499
-                    </div>
-                    <button className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300">
+                    <button 
+                      onClick={scrollToProducts}
+                      className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300"
+                    >
                       Shop Now
                     </button>
                   </div>
                   <div className="relative">
                     <img
-                      src={require("../assets/laptop-gaming.jpg")}
-                      alt="SNI Phantom X1"
-                      className="w-full h-80 object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                      src={laptops[0].image}
+                      alt="SNL CoreBook E18"
+                      className="w-full h-80 object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* PC Slide */}
+              {/* SNL CoreBook E180i7 Slide */}
               <div className="w-full flex-shrink-0">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-12">
                   <div>
                     <h3 className="text-4xl font-light text-black mb-4">
-                      SNI Tower Pro
+                      SNL CoreBook E180i7
                     </h3>
                     <p className="text-xl text-gray-600 mb-6">
-                      Professional Power
+                      Model: TK-E180i7
                     </p>
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-green-600 rounded-full"></div>
                         <span className="text-gray-700">
-                          AMD Ryzen 9 7000 Series
+                          Intel Core i7-13620H
                         </span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700">NVIDIA RTX 4090</span>
+                        <span className="text-gray-700">15.6" 1920*1080 Display</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700">64GB DDR5 RAM</span>
+                        <span className="text-gray-700">16GB RAM / 512GB SSD</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700">2TB NVMe SSD</span>
+                        <span className="text-gray-700">Windows 11 Pro</span>
                       </div>
                     </div>
-                    <div className="text-3xl font-light text-black mb-6">
-                      From $3,299
-                    </div>
-                    <button className="px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-all duration-300">
+                    <button 
+                      onClick={scrollToProducts}
+                      className="px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-all duration-300"
+                    >
                       Shop Now
                     </button>
                   </div>
                   <div className="relative">
                     <img
-                      src={require("../assets/laptop-workstation.jpg")}
-                      alt="SNI Tower Pro"
-                      className="w-full h-80 object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* iPod Slide */}
-              <div className="w-full flex-shrink-0">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-12">
-                  <div>
-                    <h3 className="text-4xl font-light text-black mb-4">
-                      SNI Pod Pro
-                    </h3>
-                    <p className="text-xl text-gray-600 mb-6">Premium Audio</p>
-                    <div className="space-y-4 mb-8">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-                        <span className="text-gray-700">
-                          Lossless Audio Quality
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-                        <span className="text-gray-700">
-                          Premium Build Quality
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-                        <span className="text-gray-700">Long Battery Life</span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-                        <span className="text-gray-700">
-                          Wireless Connectivity
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-3xl font-light text-black mb-6">
-                      From $399
-                    </div>
-                    <button className="px-8 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-all duration-300">
-                      Pre-Order Now
-                    </button>
-                  </div>
-                  <div className="relative">
-                    <img
-                      src={require("../assets/laptop-ultrabook.jpg")}
-                      alt="SNI Pod Pro"
-                      className="w-full h-80 object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                      src={laptops[1].image}
+                      alt="SNL CoreBook E180i7"
+                      className="w-full h-80 object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>
@@ -564,7 +633,7 @@ const Home = () => {
 
             {/* Carousel Navigation */}
             <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
-              {[0, 1, 2].map((index) => (
+              {[0, 1].map((index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
@@ -640,18 +709,18 @@ const Home = () => {
                 {[
                   {
                     name: "Space Gray",
-                    image: require("../assets/laptop-gaming.jpg"),
+                    image: require("../assets/images/SNL CoreBook E18/XG8A2456.jpg"),
                     available: true,
                   },
                   {
                     name: "Midnight Black",
-                    image: require("../assets/laptop-workstation.jpg"),
+                    image: require("../assets/images/SNL CoreBook E180i7/XG8A2473.jpg"),
                     available: true,
                   },
                   {
                     name: "Silver",
-                    image: require("../assets/laptop-ultrabook.jpg"),
-                    available: true,
+                    image: require("../assets/laptop-business.jpg"),
+                    available: false,
                   },
                   {
                     name: "Deep Blue",
@@ -664,28 +733,45 @@ const Home = () => {
                     className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-500 cursor-pointer ${
                       color.available
                         ? "border-gray-200 hover:border-blue-300 hover:shadow-xl"
-                        : "border-gray-100 opacity-50"
+                        : "border-gray-100"
                     }`}
                   >
                     <div className="aspect-video relative">
                       <img
                         src={color.image}
                         alt={color.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        className={`w-full h-full object-cover transition-transform duration-500 ${
+                          color.available 
+                            ? "group-hover:scale-110" 
+                            : "blur-sm"
+                        }`}
                       />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                          <p className="text-center font-medium text-black">
-                            {color.name}
-                          </p>
-                          {!color.available && (
-                            <p className="text-center text-sm text-gray-500 mt-1">
-                              Coming Soon
-                            </p>
-                          )}
+                      {/* Overlay */}
+                      <div className={`absolute inset-0 transition-all duration-300 ${
+                        color.available 
+                          ? "bg-black bg-opacity-0 group-hover:bg-opacity-20" 
+                          : "bg-gray-500 bg-opacity-30"
+                      }`}></div>
+                      
+                      {/* Coming Soon Badge for unavailable items */}
+                      {!color.available && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full text-orange-800 font-semibold text-lg shadow-lg">
+                            Coming Soon
+                          </span>
                         </div>
-                      </div>
+                      )}
+                      
+                      {/* Hover label for available items */}
+                      {color.available && (
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                            <p className="text-center font-medium text-black">
+                              {color.name}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="p-4">
                       <p className="text-center font-medium text-black">
@@ -709,15 +795,14 @@ const Home = () => {
               </h3>
               <div className="space-y-4">
                 {[
-                  { size: "8GB", storage: "256GB SSD", price: "$1,899" },
+                  { size: "8GB", storage: "256GB SSD" },
                   {
                     size: "16GB",
                     storage: "512GB SSD",
-                    price: "$2,199",
                     recommended: true,
                   },
-                  { size: "32GB", storage: "1TB SSD", price: "$2,699" },
-                  { size: "64GB", storage: "2TB SSD", price: "$3,199" },
+                  { size: "32GB", storage: "1TB SSD" },
+                  { size: "64GB", storage: "2TB SSD" },
                 ].map((spec, index) => (
                   <div
                     key={index}
@@ -739,9 +824,6 @@ const Home = () => {
                           </span>
                         )}
                       </div>
-                      <span className="text-xl font-light text-black">
-                        {spec.price}
-                      </span>
                     </div>
                   </div>
                 ))}
@@ -771,7 +853,7 @@ const Home = () => {
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-12 text-center hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 h-full">
                 <div className="mb-8">
                   <img
-                    src={require("../assets/laptop-gaming.jpg")}
+                    src={laptops[0].image}
                     alt="Laptops"
                     className="w-full h-64 object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
                   />
@@ -781,10 +863,16 @@ const Home = () => {
                   Powerful mobile computing for work and play
                 </p>
                 <div className="flex gap-4 justify-center">
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
+                  <button 
+                    onClick={() => setIsPdfModalOpen(true)}
+                    className="text-blue-600 hover:text-blue-700 font-medium"
+                  >
                     Learn more
                   </button>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
+                  <button 
+                    onClick={scrollToProducts}
+                    className="text-blue-600 hover:text-blue-700 font-medium"
+                  >
                     Shop
                   </button>
                 </div>
@@ -1176,7 +1264,7 @@ const Home = () => {
                 ref={topProductsRef}
                 className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
               >
-                {filteredProducts.slice(0, 6).map((product) => (
+                {filteredProducts.map((product) => (
                   <div
                     key={product.id}
                     className="flex-shrink-0 w-80 snap-center"
@@ -1461,42 +1549,60 @@ const Home = () => {
               <h3 className="text-base font-medium mb-4">Support</h3>
               <ul className="space-y-2">
                 <li>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
-                  >
-                    Help Center
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/warranty"
                     className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
                   >
                     Warranty
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/about"
                     className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
                   >
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-base font-medium mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <svg 
+                    className="w-5 h-5 text-gray-400 mr-2 mt-0.5 flex-shrink-0" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
                   <a
-                    href="#"
+                    href="mailto:info@softnetlanka.lk"
                     className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
                   >
-                    About Us
+                    info@softnetlanka.lk
                   </a>
+                </li>
+                <li className="flex items-start">
+                  <svg 
+                    className="w-5 h-5 text-gray-400 mr-2 mt-0.5 flex-shrink-0" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <div className="text-gray-400 text-sm">
+                    <a href="tel:+94705066128" className="hover:text-white transition-colors duration-300 block">
+                      0705066128
+                    </a>
+                    <a href="tel:+94113808800" className="hover:text-white transition-colors duration-300 block">
+                      0113808800
+                    </a>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -1529,6 +1635,28 @@ const Home = () => {
           </div>
         </div>
       </footer>
+
+      {/* Floating WhatsApp Chat Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <span className="absolute inset-0 flex items-center justify-center">
+          <span className="animate-ping absolute inline-flex h-12 w-12 rounded-full bg-green-400 opacity-75"></span>
+        </span>
+        <a
+          href="https://wa.me/94705066128"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative w-12 h-12 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
+          aria-label="Chat on WhatsApp"
+        >
+          <svg
+            className="w-7 h-7 text-white"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+          </svg>
+        </a>
+      </div>
 
       {/* Quick View Modal */}
       <QuickViewModal
@@ -1564,3 +1692,4 @@ const Home = () => {
 };
 
 export default Home;
+
