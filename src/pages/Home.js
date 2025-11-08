@@ -753,15 +753,6 @@ const Home = () => {
                           : "bg-gray-500 bg-opacity-30"
                       }`}></div>
                       
-                      {/* Coming Soon Badge for unavailable items */}
-                      {!color.available && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full text-orange-800 font-semibold text-lg shadow-lg">
-                            Coming Soon
-                          </span>
-                        </div>
-                      )}
-                      
                       {/* Hover label for available items */}
                       {color.available && (
                         <div className="absolute bottom-4 left-4 right-4">
@@ -1639,17 +1630,17 @@ const Home = () => {
       {/* Floating WhatsApp Chat Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <span className="absolute inset-0 flex items-center justify-center">
-          <span className="animate-ping absolute inline-flex h-12 w-12 rounded-full bg-green-400 opacity-75"></span>
+          <span className="animate-ping absolute inline-flex h-14 w-14 rounded-full bg-green-400 opacity-75"></span>
         </span>
         <a
           href="https://wa.me/94705066128"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative w-12 h-12 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
+          className="relative w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110"
           aria-label="Chat on WhatsApp"
         >
           <svg
-            className="w-7 h-7 text-white"
+            className="w-8 h-8 text-white"
             fill="currentColor"
             viewBox="0 0 24 24"
           >

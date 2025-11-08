@@ -368,15 +368,19 @@ const WarrantyChecker = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
-              <h3 className="text-black font-semibold mb-2">Contact Support</h3>
-              <p className="text-gray-600 text-sm mb-1">
-                <a href="tel:+94112345678" className="hover:text-primary transition-colors">
-                  +94 11 234 5678
+              <h3 className="text-black font-semibold mb-3">Contact Support</h3>
+              <p className="text-gray-600 text-sm mb-2">
+                <a href="mailto:info@softnetlanka.lk" className="hover:text-primary transition-colors">
+                  info@softnetlanka.lk
                 </a>
               </p>
               <p className="text-gray-600 text-sm">
-                <a href="mailto:info@sni.lk" className="hover:text-primary transition-colors">
-                  info@sni.lk
+                <a href="tel:+94705066128" className="hover:text-primary transition-colors">
+                  0705066128
+                </a>
+                <span className="mx-2">|</span>
+                <a href="tel:+94113808800" className="hover:text-primary transition-colors">
+                  0113808800
                 </a>
               </p>
             </div>
