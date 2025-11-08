@@ -136,15 +136,6 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <div className="pt-4">
-              <Link
-                to="/"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="btn-primary w-full text-center block"
-              >
-                Shop Now
-              </Link>
-            </div>
           </div>
         </div>
       </div>
