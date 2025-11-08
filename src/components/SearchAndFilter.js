@@ -40,21 +40,21 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-8">
+      <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-gray-200">
         {/* Search Bar */}
-        <div className="relative mb-6">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="relative mb-4 md:mb-6">
+          <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+            <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
           <input
             type="text"
-            placeholder="Search devices by name, specs, or features..."
+            placeholder="Search devices..."
             value={searchTerm}
             onChange={handleSearch}
-            className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+            className="w-full pl-10 md:pl-12 pr-10 md:pr-4 py-2.5 md:py-4 bg-gray-50 border border-gray-200 rounded-lg md:rounded-xl text-sm md:text-base text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
           />
           {searchTerm && (
             <button
@@ -62,9 +62,9 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
                 setSearchTerm('');
                 onSearch('');
               }}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-black transition-colors duration-300"
+              className="absolute right-3 md:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-black transition-colors duration-300"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -72,9 +72,28 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
         </div>
 
         {/* Categories - Outside Filters */}
-        <div className="mb-6">
-          <h3 className="text-black font-semibold mb-3">Category</h3>
-          <div className="flex flex-wrap gap-2">
+        <div className="mb-4 md:mb-6">
+          <h3 className="text-black font-semibold mb-2 md:mb-3 text-sm md:text-base">Category</h3>
+          {/* Mobile: Horizontal Scroll */}
+          <div className="md:hidden overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-2 min-w-max pb-1">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryChange(category)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 whitespace-nowrap ${
+                    selectedCategory === category
+                      ? 'bg-primary text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* Desktop: Wrap */}
+          <div className="hidden md:flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category}
@@ -92,17 +111,17 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
         </div>
 
         {/* Filter Toggle */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 md:gap-4">
           <button
             onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            className="flex items-center space-x-2 text-black hover:text-primary transition-colors duration-300"
+            className="flex items-center space-x-1.5 md:space-x-2 text-black hover:text-primary transition-colors duration-300"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.707A1 1 0 013 7V4z" />
             </svg>
-            <span className="font-medium">Price Range Filter</span>
+            <span className="font-medium text-sm md:text-base">Price Range</span>
             <svg
-              className={`w-4 h-4 transition-transform duration-300 ${
+              className={`w-3 h-3 md:w-4 md:h-4 transition-transform duration-300 ${
                 isFiltersOpen ? 'rotate-180' : ''
               }`}
               fill="none"
@@ -116,7 +135,7 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
           {(selectedCategory !== 'All' || selectedPriceRange) && (
             <button
               onClick={clearFilters}
-              className="text-sm text-primary hover:text-black transition-colors duration-300"
+              className="text-xs md:text-sm text-primary hover:text-black transition-colors duration-300"
             >
               Clear Filters
             </button>
@@ -126,17 +145,17 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
         {/* Price Range Filter (Hidden by default) */}
         <div
           className={`transition-all duration-300 overflow-hidden ${
-            isFiltersOpen ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'
+            isFiltersOpen ? 'max-h-96 opacity-100 mt-4 md:mt-6' : 'max-h-0 opacity-0'
           }`}
         >
           <div>
-            <h3 className="text-black font-semibold mb-3">Price Range</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            <h3 className="text-black font-semibold mb-2 md:mb-3 text-sm md:text-base">Price Range</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3">
               {priceRanges.map((range, index) => (
                 <button
                   key={index}
                   onClick={() => handlePriceRangeChange(range)}
-                  className={`px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm ${
+                  className={`px-3 md:px-4 py-2 md:py-3 rounded-lg font-medium transition-all duration-300 text-xs md:text-sm ${
                     selectedPriceRange?.label === range.label
                       ? 'bg-primary text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black'
