@@ -38,9 +38,9 @@ const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
         </div>
 
 
-        {/* Hover Overlay */}
+        {/* Hover Overlay - Desktop Only */}
         <div
-          className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent transition-opacity duration-300 ${
+          className={`hidden md:block absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent transition-opacity duration-300 ${
             isHovered ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -55,6 +55,19 @@ const LaptopCard = ({ laptop, onQuickView, onOrder }) => {
               Quick View
             </button>
           </div>
+        </div>
+
+        {/* Quick View Link - Mobile Only (Always Visible) */}
+        <div className="md:hidden absolute bottom-3 left-1/2 transform -translate-x-1/2">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuickView(laptop);
+            }}
+            className="px-4 py-1.5 bg-white/95 backdrop-blur-sm text-blue-600 text-xs font-medium rounded-full shadow-lg hover:bg-blue-600 hover:text-white transition-all duration-300 border border-blue-600"
+          >
+            Quick View
+          </button>
         </div>
       </div>
 
