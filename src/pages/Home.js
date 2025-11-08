@@ -375,7 +375,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Modern Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[85vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-16 md:pt-0">
         {/* Background Image with Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -387,8 +387,8 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 via-white/35 to-transparent"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
             {/* Left Content */}
             <div className="text-center lg:text-left">
               <div className="mb-0">
@@ -396,7 +396,7 @@ const Home = () => {
                   <img
                     src={require("../assets/snl_logo.png")}
                     alt="SNI Logo"
-                    className="w-40 h-40 md:w-38 md:h-38 object-contain"
+                    className="w-32 h-32 md:w-40 md:h-40 object-contain"
                     style={{
                       filter:
                         "brightness(0) saturate(100%) invert(17%) sepia(94%) saturate(7151%) hue-rotate(358deg) brightness(91%) contrast(118%)",
@@ -404,27 +404,27 @@ const Home = () => {
                   />
                 </div>
                 <h1
-                  className="text-3xl md:text-4xl font-light text-gray-600 tracking-tight"
+                  className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-600 tracking-tight px-2 md:px-0"
                   style={{ marginTop: "-20px" }}
                 >
                   From Imagination to Innovation <br /> SNL Makes It Real.
                 </h1>
               </div>
 
-              <p className="text-xl text-gray-600 mb-12 max-w-2xl leading-relaxed mt-2">
+              <p className="text-base md:text-xl text-gray-600 mb-8 md:mb-12 max-w-2xl leading-relaxed mt-2 px-4 md:px-0">
                 Your Perfect Device Awaits — Discover Our Premium Selection
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start px-4 md:px-0">
                 <button
                   onClick={scrollToProducts}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-lg transform hover:scale-105"
+                  className="px-6 md:px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 active:bg-blue-800 transition-all duration-300 text-base md:text-lg transform hover:scale-105 font-medium shadow-lg"
                 >
                   Shop Now
                 </button>
                 <button
                   onClick={() => setIsPdfModalOpen(true)}
-                  className="px-8 py-3 text-blue-600 hover:text-blue-700 transition-all duration-300 text-lg border border-blue-600 rounded-full hover:bg-blue-50"
+                  className="px-6 md:px-8 py-3 text-blue-600 hover:text-blue-700 active:text-blue-800 transition-all duration-300 text-base md:text-lg border-2 border-blue-600 rounded-full hover:bg-blue-50 active:bg-blue-100 font-medium"
                 >
                   Learn more
                 </button>
@@ -521,63 +521,63 @@ const Home = () => {
       </section>
 
       {/* Product Carousel Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
+      <section className="py-12 md:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-black mb-3 md:mb-4 tracking-tight px-2">
               Explore Our <span className="text-blue-600">Device Range</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               Your Perfect Device Awaits — Discover Our Premium Selection
             </p>
           </div>
 
           {/* Product Carousel */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-gray-50 to-gray-100 group">
+          <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-gray-50 to-gray-100 group">
             <div
               className="flex transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {/* SNL CoreBook E18 Slide */}
               <div className="w-full flex-shrink-0">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center p-6 md:p-12">
                   <div>
-                    <h3 className="text-4xl font-light text-black mb-4">
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-black mb-3 md:mb-4">
                       SNL CoreBook E18
                     </h3>
-                    <p className="text-xl text-gray-600 mb-6">Model: TK-E18</p>
-                    <div className="space-y-4 mb-8">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700">
+                    <p className="text-base md:text-lg lg:text-xl text-gray-600 mb-4 md:mb-6">Model: TK-E18</p>
+                    <div className="space-y-2 md:space-y-4 mb-6 md:mb-8">
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">
                           Intel Core i7-13620H
                         </span>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700">15.6" 1920*1080 Display</span>
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">15.6" 1920*1080 Display</span>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700">16GB RAM / 512GB SSD</span>
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">16GB RAM / 512GB SSD</span>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700">Windows 11 Pro</span>
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">Windows 11 Pro</span>
                       </div>
                     </div>
                     <button 
                       onClick={scrollToProducts}
-                      className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300"
+                      className="w-full md:w-auto px-6 md:px-8 py-2.5 md:py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 active:bg-blue-800 transition-all duration-300 font-medium text-sm md:text-base shadow-lg"
                     >
                       Shop Now
                     </button>
                   </div>
-                  <div className="relative">
+                  <div className="relative mt-6 lg:mt-0">
                     <img
                       src={laptops[0].image}
                       alt="SNL CoreBook E18"
-                      className="w-full h-80 object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-56 md:h-72 lg:h-80 object-contain rounded-xl md:rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>
@@ -585,46 +585,46 @@ const Home = () => {
 
               {/* SNL CoreBook E180i7 Slide */}
               <div className="w-full flex-shrink-0">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center p-6 md:p-12">
                   <div>
-                    <h3 className="text-4xl font-light text-black mb-4">
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-black mb-3 md:mb-4">
                       SNL CoreBook E180i7
                     </h3>
-                    <p className="text-xl text-gray-600 mb-6">
+                    <p className="text-base md:text-lg lg:text-xl text-gray-600 mb-4 md:mb-6">
                       Model: TK-E180i7
                     </p>
-                    <div className="space-y-4 mb-8">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700">
+                    <div className="space-y-2 md:space-y-4 mb-6 md:mb-8">
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">
                           Intel Core i7-13620H
                         </span>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700">15.6" 1920*1080 Display</span>
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">15.6" 1920*1080 Display</span>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700">16GB RAM / 512GB SSD</span>
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">16GB RAM / 512GB SSD</span>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700">Windows 11 Pro</span>
+                      <div className="flex items-center space-x-2 md:space-x-3">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-sm md:text-base text-gray-700">Windows 11 Pro</span>
                       </div>
                     </div>
                     <button 
                       onClick={scrollToProducts}
-                      className="px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-all duration-300"
+                      className="w-full md:w-auto px-6 md:px-8 py-2.5 md:py-3 bg-green-600 text-white rounded-full hover:bg-green-700 active:bg-green-800 transition-all duration-300 font-medium text-sm md:text-base shadow-lg"
                     >
                       Shop Now
                     </button>
                   </div>
-                  <div className="relative">
+                  <div className="relative mt-6 lg:mt-0">
                     <img
                       src={laptops[1].image}
                       alt="SNL CoreBook E180i7"
-                      className="w-full h-80 object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-56 md:h-72 lg:h-80 object-contain rounded-xl md:rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 </div>
@@ -632,15 +632,15 @@ const Home = () => {
             </div>
 
             {/* Carousel Navigation */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+            <div className="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 md:space-x-3">
               {[0, 1].map((index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`rounded-full transition-all duration-300 ${
                     currentSlide === index
-                      ? "bg-blue-600 scale-125"
-                      : "bg-gray-300 hover:bg-gray-400"
+                      ? "bg-blue-600 w-6 h-2 md:w-8 md:h-2.5 scale-100"
+                      : "bg-gray-300 hover:bg-gray-400 w-2 h-2 md:w-3 md:h-3"
                   }`}
                 />
               ))}
@@ -649,10 +649,10 @@ const Home = () => {
             {/* Navigation Arrows */}
             <button
               onClick={prevSlide}
-              className="absolute left-6 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+              className="absolute left-2 md:left-6 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white active:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl md:opacity-0 md:group-hover:opacity-100"
             >
               <svg
-                className="w-6 h-6 text-gray-600"
+                className="w-5 h-5 md:w-6 md:h-6 text-gray-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -667,10 +667,10 @@ const Home = () => {
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-6 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 group-hover:opacity-100"
+              className="absolute right-2 md:right-6 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white active:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl md:opacity-0 md:group-hover:opacity-100"
             >
               <svg
-                className="w-6 h-6 text-gray-600"
+                className="w-5 h-5 md:w-6 md:h-6 text-gray-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -688,24 +688,24 @@ const Home = () => {
       </section>
 
       {/* Colors & Specs Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
+      <section className="py-12 md:py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-black mb-3 md:mb-4 tracking-tight px-2">
               Explore Our <span className="text-blue-600">Product Lineup</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               Premium colors, powerful specifications — tailored for you
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
             {/* Colors */}
             <div>
-              <h3 className="text-2xl font-light text-black mb-8">
+              <h3 className="text-xl md:text-2xl font-light text-black mb-6 md:mb-8">
                 Available Finishes
               </h3>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3 md:gap-6">
                 {[
                   {
                     name: "Space Gray",
@@ -764,12 +764,12 @@ const Home = () => {
                         </div>
                       )}
                     </div>
-                    <div className="p-4">
-                      <p className="text-center font-medium text-black">
+                    <div className="p-3 md:p-4">
+                      <p className="text-center font-medium text-black text-sm md:text-base">
                         {color.name}
                       </p>
                       {!color.available && (
-                        <p className="text-center text-sm text-gray-500 mt-1">
+                        <p className="text-center text-xs md:text-sm text-gray-500 mt-1">
                           Coming Soon
                         </p>
                       )}
@@ -781,10 +781,10 @@ const Home = () => {
 
             {/* Specs */}
             <div>
-              <h3 className="text-2xl font-light text-black mb-8">
+              <h3 className="text-xl md:text-2xl font-light text-black mb-6 md:mb-8">
                 Memory & Storage
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {[
                   { size: "8GB", storage: "256GB SSD" },
                   {
@@ -797,7 +797,7 @@ const Home = () => {
                 ].map((spec, index) => (
                   <div
                     key={index}
-                    className={`p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
+                    className={`p-4 md:p-6 rounded-xl md:rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
                       spec.recommended
                         ? "border-blue-600 bg-blue-50"
                         : "border-gray-200 hover:border-gray-300"
@@ -805,10 +805,10 @@ const Home = () => {
                   >
                     <div className="flex justify-between items-center">
                       <div>
-                        <h4 className="text-xl font-light text-black">
+                        <h4 className="text-base md:text-xl font-light text-black">
                           {spec.size} Memory
                         </h4>
-                        <p className="text-gray-600">{spec.storage}</p>
+                        <p className="text-sm md:text-base text-gray-600">{spec.storage}</p>
                         {spec.recommended && (
                           <span className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-full mt-2">
                             Recommended
@@ -1226,39 +1226,39 @@ const Home = () => {
       </section>
 
       {/* Products Section */}
-      <section id="products-section" className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-black mb-4 tracking-tight">
+      <section id="products-section" className="py-12 md:py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-black mb-3 md:mb-4 tracking-tight px-2">
               Your Perfect Laptop Awaits
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-gray-600 max-w-2xl mx-auto px-4">
               Discover our complete range of laptops, PCs, and audio devices.
             </p>
           </div>
 
           {/* Search and Filter */}
-          <div className="mb-12">
+          <div className="mb-8 md:mb-12">
             <SearchAndFilter onSearch={handleSearch} onFilter={handleFilter} />
           </div>
 
           {/* Top Products - Horizontal Scroll */}
-          <div className="mb-20">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-3xl font-light text-black">Top Products</h3>
-              <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300">
+          <div className="mb-12 md:mb-20">
+            <div className="flex items-center justify-between mb-6 md:mb-8">
+              <h3 className="text-2xl md:text-3xl font-light text-black">Top Products</h3>
+              <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300 text-sm md:text-base">
                 View All →
               </button>
             </div>
             <div className="relative group">
               <div
                 ref={topProductsRef}
-                className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
+                className="flex space-x-4 md:space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
               >
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="flex-shrink-0 w-80 snap-center"
+                    className="flex-shrink-0 w-72 md:w-80 snap-center"
                   >
                     <LaptopCard
                       laptop={product}
@@ -1317,9 +1317,9 @@ const Home = () => {
 
           {/* All Products - Horizontal Scroll */}
           <div id="products-section">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-3xl font-light text-black">All Products</h3>
-              <p className="text-gray-600">
+            <div className="flex items-center justify-between mb-6 md:mb-8">
+              <h3 className="text-2xl md:text-3xl font-light text-black">All Products</h3>
+              <p className="text-sm md:text-base text-gray-600">
                 {filteredProducts.length}{" "}
                 {filteredProducts.length === 1 ? "product" : "products"}
               </p>
@@ -1329,12 +1329,12 @@ const Home = () => {
               <div className="relative group">
                 <div
                   ref={allProductsRef}
-                  className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
+                  className="flex space-x-4 md:space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
                 >
                   {filteredProducts.map((product) => (
                     <div
                       key={product.id}
-                      className="flex-shrink-0 w-80 snap-center"
+                      className="flex-shrink-0 w-72 md:w-80 snap-center"
                     >
                       <LaptopCard
                         laptop={product}
@@ -1425,28 +1425,28 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-12">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div>
-              <div className="flex items-center space-x-3 mb-6">
+      <footer className="bg-black text-white py-10 md:py-12">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-8">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center space-x-3 mb-4 md:mb-6">
                 <img
                   src={require("../assets/snl_logo.png")}
                   alt="SNI Logo"
-                  className="w-8 h-8 object-contain"
+                  className="w-7 h-7 md:w-8 md:h-8 object-contain"
                   style={{
                     filter:
                       "brightness(0) saturate(100%) invert(17%) sepia(94%) saturate(7151%) hue-rotate(358deg) brightness(91%) contrast(118%)",
                   }}
                 />
               </div>
-              <p className="text-gray-400 leading-relaxed mb-4 text-sm">
+              <p className="text-gray-400 leading-relaxed mb-4 text-xs md:text-sm">
                 Revolutionizing computing with innovative technology and premium
                 craftsmanship.
               </p>
 
               {/* Social Media Icons */}
-              <div className="flex space-x-4">
+              <div className="flex space-x-3 md:space-x-4">
                 <a
                   href="#"
                   className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors duration-300"
@@ -1499,7 +1499,7 @@ const Home = () => {
             </div>
 
             <div>
-              <h3 className="text-base font-medium mb-4">Shop</h3>
+              <h3 className="text-sm md:text-base font-medium mb-3 md:mb-4">Shop</h3>
               <ul className="space-y-2">
                 <li>
                   <a
@@ -1537,7 +1537,7 @@ const Home = () => {
             </div>
 
             <div>
-              <h3 className="text-base font-medium mb-4">Support</h3>
+              <h3 className="text-sm md:text-base font-medium mb-3 md:mb-4">Support</h3>
               <ul className="space-y-2">
                 <li>
                   <Link
@@ -1559,7 +1559,7 @@ const Home = () => {
             </div>
 
             <div>
-              <h3 className="text-base font-medium mb-4">Company</h3>
+              <h3 className="text-sm md:text-base font-medium mb-3 md:mb-4">Company</h3>
               <ul className="space-y-3">
                 <li className="flex items-start">
                   <svg 
