@@ -8,11 +8,11 @@ const SearchAndFilter = ({ onSearch, onFilter }) => {
 
   const categories = ["All", "Gaming", "Professional", "Content Creation", "Premium", "Portable", "Classic"];
   const priceRanges = [
-    { label: "Under $500", min: 0, max: 500 },
-    { label: "$500 - $1,000", min: 500, max: 1000 },
-    { label: "$1,000 - $2,000", min: 1000, max: 2000 },
-    { label: "$2,000 - $3,000", min: 2000, max: 3000 },
-    { label: "$3,000+", min: 3000, max: Infinity }
+    { label: "Under LKR 100K", min: 0, max: 100000 },
+    { label: "LKR 100K - 200K", min: 100000, max: 200000 },
+    { label: "LKR 200K - 400K", min: 200000, max: 400000 },
+    { label: "LKR 400K - 600K", min: 400000, max: 600000 },
+    { label: "LKR 600K+", min: 600000, max: Infinity }
   ];
 
   const handleSearch = (e) => {
